@@ -38,274 +38,169 @@ Loads the memory cell `[%REG2]` is pointing to: `%REG1 = [%REG2]`
 ### STORE `[%REG1]`, `%REG2`
 Stores `%REG2` into the memory cell `[%REG1]` is pointing to: `[%REG1] = %REG2`
 
+### MOV `%REG, $imm`
+Puts the value `$imm` in `%REG`: `%REG = $imm`
 
-# TODO: FINISH ALL THIS `@pmozil`, PLEASE
-### MOV `$imm`
-Puts the value `$imm` in the `acc`: `%ACC = $imm`
+### MOV `%REG1, %REG2`
+Puts the value `%REG2` in `%REG1`: `%REG1 = %REG2`
 
-### PUSH
-`00000111` - 1 byte
+### PUSH `%REG`
+Pushes the value of the `%REG` register on to the top of the memory stack
 
-Pushes the value of the `%ACC` register on to the top of the memory stack
+### POP `%REg`
+Pops the previous value from the memory stack into `%REG`
 
-### POP
-`00001010` - 1 byte
+### ADD `%REG1, %REG2, %REG3`
+Add items from the `%REG2` register and register `%REG3`, and puts the result into `%REG1`
 
-Pops the previous value from the memory stack into `%ACC`
+`%REG1 = %REG2 + %REG3`
 
-### PUSHF
-`00001000` - 1 byte
+### SUB `%REG1, %REG2, %REG3`
+Subtract from the `%REG2` register  the value in register `%REG3`, and puts the result into `%REG1`
 
-Pushes the value of the `%FR` register on to the top of the memory stack
+`%REG1 = %REG2 - %REG3`
 
-### POPF
-`00001011` - 1 byte
+### MUL `%REG1, %REG2, %REG3`
+Multiply items from the `%REG2` register and register `%REG3`, and puts the result into `%REG1`
 
-Pops the previous value from the memory stack into `%IR`
+`%REG1 = %REG2 * %REG3`
 
-### PUSHI
-`00001000` - 1 byte
+### DIV `%REG1, %REG2, %REG3`
+Divide the `%REG3` register  by register `%REG2`, and puts the result into `%REG1`
 
-Pushes the value of the `%IR` register on to the top of the memory stack
+`%REG1 = %REG2 / %REG3`
 
-### POPI
-`00001100` - 1 byte
+### AND `%REG1, %REG2, %REG3`
+Computes binary and between word from the `%REG2` register and `%REG3` location, saving the result into `%REG1`
 
-Pops the previous value from the memory stack into `%FR`
+`%REG1  = %REG2 & %REG3`
 
-### ADD `[mem]`
-`00001101` - 2 bytes
+### OR `%REG1, %REG2, %REG3`
+Computes binary or between word from the `%REG2` register and `%REG3` location, saving the result into `%REG1`
 
-Add items from the `acc` register and memory location `mem` (or `acc` register), pushing the result into `acc`
+`%REG1  = %REG2 | %REG3`
 
-`%ACC += [mem]`
+### XOR `%REG1, %REG2, %REG3`
+Computes binary xor between word from the `%REG2` register and `%REG3` location, saving the result into `%REG1`
 
-### SUB `[mem]`
-`00001110` - 2 bytes
+`%REG1  = %REG2 ^ %REG3`
 
-Subtract items from the `acc` register and memory location `mem` (or `acc` register), pushing the result into `acc`
+### NOT `%REG1, %REG2`
+Computes binary not of the `%REG2` register, saving the result into `%REG1`
 
-`%ACC -= [mem]`
+`%REG1  = ~%REG2`
 
-### MUL `[mem]`
-`00010001` - 2 bytes
+### LSH `%REG1, %REG2, %REG3`
+Shifts `%REG2` left by `%REG3` bits, and saves it to `%REG1`
 
-Multiplies value from the location `mem` and value from the register `%ACC`, saving the result in the register `%ACC`
+`%REG1  = %REG2  << %REG3`
 
-`%ACC *= [mem]`
+### RSH `%REG1, %REG2, %REG3`
+Shifts `%REG2` right by `%REG3` bits, and saves it to `%REG1`
 
-### DIV `[mem]`
-`00010010` - 2 bytes
-
-Divides value from the register `%ACC` by value at the location `mem`, saving the result in the register `%ACC`
-
-`%ACC /= [mem]`
-
-### INC
-`00001111` - 1 byte
-
-Increments `%ACC` by one
-
-`%ACC += 1`
-
-### DEC
-`00010000` - 1 byte
-
-Decrements `%ACC` by one
-
-`%ACC -= 1`
-
-### AND `[mem]`
-`00010011` - 2 bytes
-
-Computes binary and between word from the `%ACC` register and `mem` location, saving the result into `%ACC`
-
-`%ACC  = %ACC & [mem]`
-
-### OR `[mem]`
-`00010100` - 2 bytes
-
-Computes binary or between word from the `%ACC` register and `mem` location, saving the result into `%ACC`
-
-`%ACC  = %ACC | [mem]`
-
-### XOR `[mem]`
-`00010101` - 2 bytes
-
-Computes binary xor between word from the `%ACC` register and `mem` location, saving the result into `%ACC`
-
-`%ACC  = %ACC ^ [mem]`
-
-### NOT `[mem]`
-`00010110` - 1 byte
-
-Computes binary not between word for the `%ACC` register
-
-`%ACC  = ~%ACC`
-
-### LSH `$num`
-`10000010` - 2 bytes
-
-Shifts the value from register `acc` by `num` to the left, saving the result in the register `acc`
-
-`%ACC = %ACC << $num`
-
-### RSH `$num`
-`10000011` - 2 bytes
-
-Shifts the value from register `acc` by `num` to the left, saving the result in the register `acc`
-
-`%ACC = %ACC >> $num`
+`%REG1  = %REG2  >> %REG3`
 
 ###  CALL `label`
-`10000100` - 2 bytes
 
 Pushes the next instruction's location on to the memory stack, transfers control to the location at `label`
 
-###  CALL `$num`
-`10000100` - 2 bytes
+###  CALL `[$num]`
 
-Pushes the next instruction's location on to the memory stack, transfers control to the location at `num`
+Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$num]`
 
-###  CALL
-`00010111` - 1 byte
-
-Pushes the next instruction's location on to the memory stack, transfers control to the location at `%ACC`
+###  CALL `[%REG]`
+Pushes the next instruction's location on to the memory stack, transfers control to the location at `%REg`
 
 ### RET
-`00011000` - 1 byte
-
 Transfers control to the popped instruction location
 
-### CMP `[mem]`
-`00011001` - 2 bytes
+### CMP `%REG1, %REG2`
+Compares value of register `%REG1` and value `%REG2`, by subtracting the second one from the first one, changing the flags accordingly
 
-Compares value of register `%ACC` and value at location `mem` (or with constant `num`), by subtracting the second one from the first one, changing the flags accordingly
+### CMP `%REG1, $num`
+Compares value of register `%REG1` and value `$num`, by subtracting the second one from the first one, changing the flags accordingly
 
-### CMP `$imm`
-`10000101` - 2 bytes
+### TEST `%REG1, %REG2`
+Performs bitwise `and` operation between the `%REG1` and `%REG2`, changing the flags accordingly
 
-Compares value of register `%ACC` and value `imm`, by subtracting the second one from the first one, changing the flags accordingly
-
-### TEST `$num`
-`10000110` - 2 bytes
-
-Performs bitwise `and` operation between the `num` and `%ACC`, changing the flags accordingly
-
-### TEST `[mem]`
-`10000110` - 2 bytes
-
-Performs bitwise `and` operation between the value at `mem` and `%ACC`, changing the flags accordingly
+### TEST `%REG1, $num`
+Performs bitwise `and` operation between the `%REG1` and the value `$unm`, changing the flags accordingly
 
 ### JMP `$num`
-`10000111` - 2 bytes
-
 If `ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
-### JMP
-`00011011` - 1 byte
+### JMP `%REG`
+If `ZF == 1`, Sets `%PC` to `%REG`, effectively jumping to that address
 
-If `ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that address
-
-`%PC = %ACC`
+`%PC = %REG`
 
 ### JE `$num`
-`10001000` - 2 bytes
-
 If `ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
-### JE
-`00011100` - 1 byte
+### JE `%REG`
+If `ZF == 1`, Sets `%PC` to `%REG`, effectively jumping to that address
 
-If `ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that address
-
-`%PC = %ACC`
+`%PC = %REG`
 
 ### JNE `$num`
-`10001001` - 2 bytes
-
 If `ZF == 0`, Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
-### JNE
-`00011101` - 1 byte
+### JNE `%REG`
+If `ZF == 0`, Sets `%PC` to `%REG`, effectively jumping to that address
 
-If `ZF == 0`, Sets `%PC` to `%ACC`, effectively jumping to that address
-
-`%PC = %ACC`
+`%PC = %REG`
 
 ### JG `$num`
-`10001010` - 2 bytes
-
 If `ZF == 0 && SF == OF`, Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
-### JG
-`00011110` - 1 byte
+### JG `%REG`
+If `ZF == 0 && SF == OF`, Sets `%PC` to `%REG`, effectively jumping to that address
 
-If `ZF == 0 && SF == OF`, Sets `%PC` to `%ACC`, effectively jumping to that address
-
-`%PC = %ACC`
+`%PC = %REG`
 
 ### JGE `$num`
-`10001011` - 2 bytes
-
 If `Cf == 0`, Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
-### JGE
-`00011111` - 1 byte
+### JGE `%REG`
+If `CF == 0`, Sets `%PC` to `%REG`, effectively jumping to that address
 
-If `CF == 0`, Sets `%PC` to `%ACC`, effectively jumping to that address
-
-`%PC = %ACC`
+`%PC = %REG`
 
 ### JL `$num`
-`10001100` - 2 bytes
-
 If `SF != OF`, Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
-### JL
-`00100000` - 1 byte
+### JL `%REG`
+If `SF != OF`, Sets `%PC` to `%REG`, effectively jumping to that address
 
-If `SF != OF`, Sets `%PC` to `%ACC`, effectively jumping to that address
-
-`%PC = %ACC`
+`%PC = %REG`
 
 ### JLE `$num`
-`10001101` - 2 bytes
-
 If `CF == 1 || ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
-### JLE
-`00100001` - 1 byte
+### JLE `%REG`
+If `CF == 1 || ZF == 1`, Sets `%PC` to `%REG`, effectively jumping to that address
 
-If `CF == 1 || ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that address
+`%PC = %REG`
 
-`%PC = %ACC`
-
-### IN `$num`
-`10001110` - 2 bytes
-
-Transfers data from the device at port `num` to `%ACC`
+### IN %REG, `$num`
+Transfers data from the device at port `num` to `%REG`
 
 ### OUT `$num1, $num2`
-`10001111` - 3 bytes
-
 Transfers data from `num2` to the device at port `num1`
 
-### OUT `$num1`
-`00100010` - 2 bytes
-
-Transfers data from `%ACC` to the device at port `num1`
+### OUT `$num1, %REG`
+Transfers data from `%REG` to the device at port `num1`

@@ -184,7 +184,7 @@ Pushes the next instruction's location on to the memory stack, transfers control
 ###  CALL `$num`
 `10000100` - 2 bytes
 
-Pushes the next instruction's location on to the memory stack, transfers control to the location at `num`
+Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$num]`
 
 ###  CALL
 `00010111` - 1 byte
