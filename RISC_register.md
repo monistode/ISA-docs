@@ -8,58 +8,39 @@ Register name starts with `%`
 8-bit instructions, 49 instructions
 
 Registers:
+- `R00` - General-purpose 16-bit word (`R00H` - high byte, `R00L` - low byte)
+- `R01` - General-purpose 16-bit word (`R01H` - high byte, `R01L` - low byte)
+- `R02` - General-purpose 16-bit word (`R02H` - high byte, `R02L` - low byte)
+- `R03` - General-purpose 16-bit word (`R03H` - high byte, `R03L` - low byte)
 - `FR` (flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
 - `SP` - stack pointer
 - `PC` - program counter
-- `IR` - index register (used for indexing in arrays)
-- `ACC` - the accumulator
+- `LR` - link register (stores call return address)
 
 Opcode structure:
-`| 1 bit immediate sign | 7-bit opcode |`
 
-And immediate constants contain two 8-bit bytes:
-`| 8-bit immediate high byte | 8-bit immediate low byte |`
+- for three registers (dest = src1, src2): `| 6-bit opcode | 3-bit register | 3-bit register | 3-bit register | 1 empty bit |`
+- for a register and immediate constant `| 6-bit opcode | 3-bit register | 7-bit constant |`
+- for immediate constant `| 6-bit opcode | 10-bit constant |`
+
+And load immediate constants instructions look like:
+
+`| 5-bit opcode for high/low load | 3-bit register | 8-bit immediate constant low/high byte |`
 
 ## Instructions
 
 ### HALT 
-`00000000` - 1 byte
-
 Disables cpu until power is cycled
 
-### LOAD
-`00000001` - 1 byte
+### LOAD `%REG1`, `[%REG2]`
+Loads the memory cell `[%REG2]` is pointing to: `%REG1 = [%REG2]`
 
-Loads the memory cell `IR` is pointing to: `%ACC = [%IR]`
+### STORE `[%REG1]`, `%REG2`
+Stores `%REG2` into the memory cell `[%REG1]` is pointing to: `[%REG1] = %REG2`
 
-### LOAD `%FR`
-`00000010` - 2 bytes
 
-Loads the flag register: `%ACC = %FR`
-
-### LOAD `%IR`
-`00000011` - 2 bytes
-
-Loads the index register: `%ACC = %IR`
-
-### STORE
-`00000100` - 1 byte
-
-Stores `%ACC` into the memory cell `IR` is pointing to: `[%IR] = %ACC`
-
-### STORE `%FR`
-`00000101` - 2 bytes
-
-Stores `%ACC` into the flag register: `%FR = %ACC`
-
-### STORE `%IR`
-`00000110` - 2 bytes
-
-Stores `ACC` into  the index register: `%IR = %ACC`
-
+# TODO: FINISH ALL THIS `@pmozil`, PLEASE
 ### MOV `$imm`
-`10000001` - 2 bytes
-
 Puts the value `$imm` in the `acc`: `%ACC = $imm`
 
 ### PUSH
