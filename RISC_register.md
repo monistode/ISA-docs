@@ -181,7 +181,7 @@ Compares value of register `%REG1` and value `$num`, by subtracting the second o
 Performs bitwise `and` operation between the `%REG1` and `%REG2`, changing the flags accordingly
 
 ### TEST `%REG1, $num`
-`011000` - 3 bytes
+`011000` - 2 bytes
 
 Performs bitwise `and` operation between the `%REG1` and the value `$unm`, changing the flags accordingly
 
