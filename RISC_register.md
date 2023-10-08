@@ -1,4 +1,4 @@
-# RISC ACCUMULATOR
+# RISC REGISTER
 
 ## Structure
 
