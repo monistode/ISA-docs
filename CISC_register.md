@@ -153,51 +153,202 @@ Subtract the value at `%REG2` from `[%REG1]`
 `[%REG1] -= %REG2`
 
 # INC `%REG`
+`00000011` - 2 bytes
+
+Increment `%REG` by one
+`%REG += 1`
+
 # INC `[%REG]`
+`00000100` - 2 bytes
+
+Increment `[%REG]` by one
+`[%REG] += 1`
+
 # INC `[%REG+$OFF]`
+`10000010` - 4 bytes
+
+Increment `[%REG+$OFF]` by one
+`[%REG+$OFF] += 1`
+
 
 # DEC `%REG`
+`00000101` - 2 bytes
+
+Decrement `%REG` by one
+`%REG += 1`
+
 # DEC `[%REG]`
+`00000110` - 2 bytes
+
+Decrement `[%REG]` by one
+`[%REG] += 1`
+
 # DEC `[%REG+$OFF]`
+`10000011` - 4 bytes
+
+Decrement `[%REG+$OFF]` by one
+`[%REG+$OFF] += 1`
+
 
 # MUL `%REG1`, `%REG2`
+`01101001` - 2 bytes
+
+Multiply `%REG1` by `%REG2` and store the result in `%REG1`
+`%REG1 *= %REG2`
+
 # MUL `%REG1`, `[%REG2]`
+`01101010` - 2 bytes
+
+Multiply `%REG1` by `[%REG2]` and store the result in `%REG1`
+`%REG1 *= [%REG2]`
+
 # MUL `[%REG1]`, `%REG2`
-# DIV `[%REG1]`, `%REG2`
+`01101011` - 2 bytes
+
+Multiply `[%REG1]` by `%REG2` and store the result in `[%REG1]`
+`[%REG1] *= %REG2`
+
 # MUL `%REG`, `$IMM`
+`10000100` - 4 bytes
+
+Multiply `%REG1` by `$IMM` and store the result in `%REG1`
+`%REG1 *= $IMM`
+
 # MUL `%REG1`, `[%REG2+$OFF]`
+`10100100` - 4 bytes
+
+Multiply `%REG1` by `[%REG2+$OFF]` and store the result in `%REG1`
+`%REG1 *= [%REG2+$OFF]`
 
 # DIV `%REG1`, `%REG2`
+`01101100` - 2 bytes
+
+Divide `%REG1` by `%REG2` and store the result in `%REG1`
+`%REG1 *= %REG2`
+
 # DIV `%REG1`, `[%REG2]`
+`01101101` - 2 bytes
+
+Divide `%REG1` by `[%REG2]` and store the result in `%REG1`
+`%REG1 *= [%REG2]`
+
 # DIV `[%REG1]`, `%REG2`
+`01101110` - 2 bytes
+
+Divide `[%REG1]` by `%REG2` and store the result in `[%REG1]`
+`[%REG1] *= %REG2`
+
 # DIV `%REG`, `$IMM`
+`10000101` - 4 bytes
+
+Divide `%REG1` by `$IMM` and store the result in `%REG1`
+`%REG1 *= $IMM`
+
 # DIV `%REG1`, `[%REG2+$OFF]`
+`10100101` - 4 bytes
+
+Divide `%REG1` by `[%REG2+$OFF]` and store the result in `%REG1`
+`%REG1 *= [%REG2+$OFF]`
 
 # AND `%REG1`, `%REG2`
+`01101111` - 2 bytes
+
+Binary and `%REG1` and `%REG2`, storing the result into `%REG1`
+
+`%REG1 &= %REG2`
+
 # AND `%REG1`, `[%REG2]`
-# AND `[%REG1]`, `%REG2`
+`01110000` - 2 bytes
+
+Binary and `%REG1` and `[%REG2]`, storing the result into `%REG1`
+
+`%REG1 &= [%REG2]`
 
 # OR `%REG1`, `%REG2`
+`01110001` - 2 bytes
+
+Binary or `%REG1` and `%REG2`, storing the result into `%REG1`
+
+`%REG1 |= %REG2`
+
 # OR `%REG1`, `[%REG2]`
-# OR `[%REG1]`, `%REG2`
+`01110010` - 2 bytes
+
+Binary or `%REG1` and `[%REG2]`, storing the result into `%REG1`
+
+`%REG1 |= [%REG2]`
 
 # XOR `%REG1`, `%REG2`
+`01110011` - 2 bytes
+
+Binary xor `%REG1` and `%REG2`, storing the result into `%REG1`
+
+`%REG1 ^= %REG2`
+
 # XOR `%REG1`, `[%REG2]`
-# XOR `[%REG1]`, `%REG2`
+`01110100` - 2 bytes
+
+Binary xor `%REG1` and `[%REG2]`, storing the result into `%REG1`
+
+`%REG1 ^= [%REG2]`
 
 # NOT `%REG1`
+`00000111`  - 2 bytes
+
+Binary not `%REG1`
+
+`%REG1 = ~%REG1`
 
 # NOT `[%REG]`
+`00001000` - 2 bytes
+
+Binary not `[%REG1]`
+
+`[%REG1] = ~[%REG1]`
+
  
 # LSH `%REG`, `$IMM`
+`10000110` - 2 bytes
+
+Shift `%REG` left logically by `$IMM` bits
+
+`%REG = %REG << $IMM`
+
 # LSH `[%REG]`, `$IMM`
+`10000111` - 2 bytes
+
+Shift `[%REG]` left logically by `$IMM` bits
+
+`[%REG] = [%REG] << $IMM`
+
 # LSH `[%REG+$OFF]`, `$IMM`
+`11000001` - 4 bytes
+
+Shift `[%REG+$OFF]` left logically by `$IMM` bits
+
+`[%REG+$OFF] = [%REG+$OFF] << $IMM`
  
 # RSH `%REG`, `$IMM`
- 
+`10001000` - 2 bytes
+
+Shift `%REG` right logically by `$IMM` bits
+
+`%REG = %REG << $IMM`
+
 # RSH `[%REG]`, `$IMM`
+`10001001` - 2 bytes
+
+Shift `[%REG]` right logically by `$IMM` bits
+
+`[%REG] = [%REG] << $IMM`
+
 # RSH `[%REG+$OFF]`, `$IMM`
- 
+`11000010` - 4 bytes
+
+Shift `[%REG+$OFF]` right logically by `$IMM` bits
+
+`[%REG+$OFF] = [%REG+$OFF] << $IMM`
+
 # CALL LABEL
 # CALL `[`$IMM`]`
 # CALL `[%REG]`
