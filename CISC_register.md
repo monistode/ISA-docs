@@ -350,52 +350,169 @@ Shift `[%REG+$OFF]` right logically by `$IMM` bits
 `[%REG+$OFF] = [%REG+$OFF] << $IMM`
 
 # CALL LABEL
-# CALL `[`$IMM`]`
-# CALL `[%REG]`
-# CALL `[%REG+$OFF]`
- 			
+`01000010` - 3 bytes
+
+Jumps to label
+
+`%PC = LABEL`
+
+# CALL `$IMM`
+`01000010` - 3 bytes
+
+Jumps to `$IMM` address
+
+`%PC = $IMM`
+
+# CALL `%REG`
+`00001001` - 2 bytes
+
+Jumps to value at register
+
+`%PC = %REG`
+
+# CALL `%REG+$OFF`
+`10001001` - 4 bytes
+
+Jumps to `%REG + $OFF`
+
+`%PC = %REG + $OFF`
+
 # RET
+`00100001` - 1 byte
+
+Pops the value off the memory stack and puts it into `%PC`
  
 # CMP `%REG1`, `%REG2`
+`01110101` - 2 bytes
+
+Compare `%REG1` and `%REG2` by subtractiong them. Sets the flags appropriately
  
 # CMP `%REG`, `$IMM`
+`10001011` - 4 bytes
+
+DOES NOT MUTATE THE REGISTERS
+Compare `%REG1` and `$IMM` by subtractiong them. Sets the flags appropriately
  
 # CMP `%REG1`, `[%REG2]`
+`10001011` - 2 bytes
+
+DOES NOT MUTATE THE REGISTERS
+Compare `%REG1` and `[%REG2]` by subtractiong them. Sets the flags appropriately
+
  
 # CMP `%REG1`, `[%REG2+$OFF]`
+`10100110` - 4 bytes
+
+DOES NOT MUTATE THE REGISTERS
+Compare `%REG1` and `[%REG2 + $OFF]` by subtractiong them. Sets the flags appropriately
  
 # TEST `%REG1`, `%REG2`
+`01110111` - 2 bytes
+
+DOES NOT MUTATE THE REGISTERS
+Performs bitwise and on `%REG1` and `%REG2`. Sets the flags accordingly. 
  
 # TEST `%REG1`, `[%REG2]`
+`01111000` - 2 bytes
+
+DOES NOT MUTATE THE REGISTERS
+Performs bitwise and on `%REG1` and `[%REG2]`. Sets the flags accordingly. 
+
 # TEST `%REG1`, `[%REG2+$OFF]`
-# TEST `[%REG1]`, `%REG2`
- 
+
+`10100111` - 4 bytes
+DOES NOT MUTATE THE REGISTERS
+Performs bitwise and on `%REG1` and `[%REG2+$OFF]`. Sets the flags accordingly. 
+
 # JMP `[$OFF]`
+`01000011` - 2 bytes
+
+Sets `%PC` to `$OFF`, effectively jumping to it.
+
+`%PC = $OFF`
+
  
-# JMP `[%REG]`
+# JMP `%REG`
+`00001010`
  
-# JMP `[%REG+$OFF]`
+Sets `%PC` to `%REH`, effectively jumping to it.
+
+`%PC = %REG`
+
+# JMP `%REG+$OFF`
+`10001100` - 4 bytes
  
+Sets `%PC` to `%REG + $OFF`, effectively jumping to it.
+
+`%PC = %REG + $OFF`
+
 # JE `$OFF`
+`01000100` - 3 bytes
+
+If `ZF == 1`, Sets `%PC` to `$OFF`, effectively jumping to that address
  
 # JNE `$OFF`
+`01000101` - 2 bytes
+
+If `ZF == 0`, Sets `%PC` to `$OFF`, effectively jumping to that address
  
 # JG `$OFF`
+`01000110` - 3 bytes
+
+If `ZF == 0 && SF == OF`, Sets `%PC` to `$OFF`, effectively jumping to that address
  
 # JGE `$OFF`
+`01000111` - 3 bytes
+
+If `Cf == 0`, Sets `%PC` to `$num`, effectively jumping to that address
  
 # JL `$OFF`
- 
+`01001000` - 3 bytes 
+
+If `SF != OF`, Sets `%PC` to `$OFF`, effectively jumping to that address
+
 # JLE `$OFF`
+`01001001` - 3 bytes
+
+If `CF == 1 || ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
  			
-# IN `$NUM`, `$PORT`
+# IN `%REG`, `$PORT`
+`10001101` - 3 bytes
+
+Transfers data from the device at port `$PORT` to `%REG`
+
 # IN `[%REG]`, `$PORT`
+`10001110` - 3 bytes
+
+Transfers data from the device at port `$PORT` to `[%REG]`
+
 # IN `[%REG+$OFF]`, `$PORT`
+`11000011` - 5 bytes
+
+Transfers data from the device at port `$PORT` to `[%REG + $OFF]`
  			
 # OUT `$PORT`, `$IMM`
+`10001111` - 4 bytes
+
+Puts the value `$IMM` on to the port `$PORT`
+
+
 # OUT `$PORT`, `%REG`
+`10001111` - 3 bytes
+
+Puts the value from `%REG` on to the port `$PORT`
+
 # OUT `$PORT`, `[%REG]`
+`10010000` - 3 bytes
+
+Puts the value from `[%REG]` on to the port `$PORT`
+
 # OUT `$PORT`, `[%REG+$OFF]`
+`11000100` - 5 bytes
+
+Puts the value from `[%REG + $OFF]` on to the port `$PORT`
+
+
 # LOAD4 `[%REG]`
 # STORE4 `[%REG]`
 # ADD4 `[%REG1], [%REG2]`
