@@ -8,14 +8,14 @@ Register name starts with `%`
 8-bit instructions, 49 instructions
 
 Registers:
-- `R00` - General-purpose 16-bit word (`R00H` - high byte, `R00L` - low byte)
-- `R01` - General-purpose 16-bit word (`R01H` - high byte, `R01L` - low byte)
-- `R02` - General-purpose 16-bit word (`R02H` - high byte, `R02L` - low byte)
-- `R03` - General-purpose 16-bit word (`R03H` - high byte, `R03L` - low byte)
-- `FR` (flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
-- `SP` - stack pointer
-- `PC` - program counter
-- `LR` - link register (stores call return address)
+- `R00` - `16 bits` - General-purpose 16-bit word (`R00H` - high byte, `R00L` - low byte)
+- `R01` - `16 bits` - General-purpose 16-bit word (`R01H` - high byte, `R01L` - low byte)
+- `R02` - `16 bits` - General-purpose 16-bit word (`R02H` - high byte, `R02L` - low byte)
+- `R03` - `16 bits` - General-purpose 16-bit word (`R03H` - high byte, `R03L` - low byte)
+- `FR`  - `8 bits` -(flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
+- `SP` -  `16 bits` - stack pointer
+- `PC` -  `16 bits` - program counter
+- `LR` -  `16 bits` - link register (stores call return address)
 
 Opcode structure:
 

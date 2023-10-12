@@ -3,12 +3,12 @@
 ## Structure
 Register CISC architecture uses 1-6 bytes for instructions:
 There is 7 registers:
-- `FR` Flag register with least significant bits representing flags - CF, ZF, OF, SF (not a general-purpose register)
-- `R00`, `R01`, `R02`, `R03` with L and H bytes each
-- `M00`, `M01`, `M02` - SIMD registers wirh (`H, L`) being the first / second and third / fourth bytes respectively
-- `BP` - base pointer
-- `SP`- stack pointer
-- `OC` - Program counter (can't be directly affected with arithmetical instructions)
+- `FR` - `8 bits` - Flag register with least significant bits representing flags - CF, ZF, OF, SF (not a general-purpose register)
+- `R00`, `R01`, `R02`, `R03` - `16 bits each` - with L and H bytes each
+- `M00`, `M01`, `M02` - `32 bits each` - SIMD registers wirh (`H, L`) being the first / second and third / fourth bytes respectively
+- `BP` - `16 bits` - base pointer
+- `SP` - `16 bits` - stack pointer
+- `PC` - `16 bits` - Program counter (can't be directly affected with arithmetical instructions)
 
 Instructions look like this:
 - `| 3-bit style specifier | 5-bit opcode | `

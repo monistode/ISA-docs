@@ -8,11 +8,11 @@ Register name starts with `%`
 8-bit instructions, 49 instructions
 
 Registers:
-- `FR` (flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
-- `SP` - stack pointer
-- `PC` - program counter
-- `IR` - index register (used for indexing in arrays)
-- `ACC` - the accumulator
+- `FR` - `8 bits` (flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
+- `SP` - `16 bits` - stack pointer
+- `PC` - `16 bits` - program counter
+- `IR` - `16 bits` - index register (used for indexing in arrays)
+- `ACC` - `8 bits` - the accumulator
 
 Opcode structure:
 `| 1 bit immediate sign | 7-bit opcode |`
