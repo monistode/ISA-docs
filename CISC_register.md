@@ -5,6 +5,7 @@ Register CISC architecture uses 1-6 bytes for instructions:
 There is 7 registers:
 - `FR` Flag register with least significant bits representing flags - CF, ZF, OF, SF (not a general-purpose register)
 - `R00`, `R01`, `R02`, `R03` with L and H bytes each
+- `M00`, `M01`, `M02` - SIMD registers wirh (`H, L`) being the first / second and third / fourth bytes respectively
 - `BP` - base pointer
 - `SP`- stack pointer
 - `OC` - Program counter (can't be directly affected with arithmetical instructions)
@@ -31,12 +32,14 @@ Disables cpu until power is cycled
 # MOV `%REG`, `$IMM`
 `10000000` - 4 bytes
 
-Copy the value `$IMM` into `%REG`: `%REG = `$IMM``
+Copy the value `$IMM` into `%REG`: `%REG` = `$IMM`
 
 # MOV `%REG1`, `%REG2`
 `01100000` - 2 btyes
 
-Copy the value from `%REG2` into `%REG1`: `%REG1 = `%REG2``
+Copy the value from `%REG2` into `%REG1`: `%REG1` = `%REG2`
+
+YOU COULD DO `MOV %M00H %R00` / `MOV %R00 %M00H` / `MOV %M00L %R00` / `MOV %R00 %M00L`
 
 # MOV `%REG1`, `[%REG2]`
 `01100001` - 2 bytes
@@ -512,12 +515,45 @@ Puts the value from `[%REG]` on to the port `$PORT`
 
 Puts the value from `[%REG + $OFF]` on to the port `$PORT`
 
+# LOAD4 `%SIMDREG`, `$ADDR`
+`00001011` - 4 bytes
 
-# LOAD4 `[%REG]`
-# STORE4 `[%REG]`
-# ADD4 `[%REG1], [%REG2]`
-# SUB4 `[%REG1], [%REG2]`
-# MUL4 `[%REG1], [%REG2]`
-# DIV4 `[%REG1], [%REG2]`
-# CMP4 `[%REG1], [%REG2]`
-# TEST4 `[%REG1], [%REG2]`
+Load 4 bytes from memory into `%SIMDRED`, starting at `$ADDR`
+
+# STORE4 `%SIMDREG`, `$ADDR`
+`00001100` - 4 bytes
+
+Store 4 bytes from `%SIMDRED` into `[$ADDR]`
+
+# ADD4 `%SIMDREG1, %SIMDREG2`
+`01111010` - 2 bytes
+
+Add two SIMD registers (`%SIMDREG1 * %SIMDREG2`), storing the result into `%SIMDREG1`.
+
+`%SIMDREG1 += %SIMDREG2`
+
+# SUB4 `%SIMDREG1, %SIMDREG2`
+`01111011` - 2 bytes
+
+Subtract two SIMD registers (`%SIMDREG1 - %SIMDREG2`), storing the result into `%SIMDREG1`.
+
+`%SIMDREG1 -= %SIMDREG2`
+
+# MUL4 `%SIMDREG1, %SIMDREG2`
+`01111101` - 2 bytes
+
+Multiply two SIMD registers (`%SIMDREG1 * %SIMDREG2`), storing the result into `%SIMDREG1`.
+
+`%SIMDREG1 *= %SIMDREG2`
+
+# DIV4 `%SIMDREG1, %SIMDREG2`
+`01111101` - 2 bytes
+
+Divide two SIMD registers (`%SIMDREG1 / %SIMDREG2`), storing the result into `%SIMDREG1`.
+
+`%SIMDREG1 /= %SIMDREG2`
+
+# NOP
+`00100010` - 1 byte
+
+Do nothing for 1 cycle
