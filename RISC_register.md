@@ -15,7 +15,6 @@ Registers:
 - `FR`  - `8 bits` -(flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
 - `SP` -  `16 bits` - stack pointer
 - `PC` -  `16 bits` - program counter
-- `LR` -  `16 bits` - link register (stores call return address)
 
 Opcode structure:
 
