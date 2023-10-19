@@ -80,7 +80,7 @@ Pushes the value of the `%FR` register on to the top of the memory stack
 ### POPF
 `00001011` - 1 byte
 
-Pops the previous value from the memory stack into `%IR`
+Pops the previous value from the memory stack into `%FR`
 
 ### PUSHI
 `00001000` - 1 byte
@@ -90,7 +90,7 @@ Pushes the value of the `%IR` register on to the top of the memory stack
 ### POPI
 `00001100` - 1 byte
 
-Pops the previous value from the memory stack into `%FR`
+Pops the previous value from the memory stack into `%IR`
 
 ### ADD `[mem]`
 `00001101` - 2 bytes
@@ -219,14 +219,14 @@ Performs bitwise `and` operation between the value at `mem` and `%ACC`, changing
 ### JMP `$num`
 `10000111` - 2 bytes
 
-If `ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
+Sets `%PC` to `$num`, effectively jumping to that address
 
 `%PC = $num`
 
 ### JMP
 `00011011` - 1 byte
 
-If `ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that address
+Sets `%PC` to `%ACC`, effectively jumping to that address
 
 `%PC = %ACC`
 

@@ -49,27 +49,27 @@ Copy the value at memory location `[%REG2]` into `%REG1`: `%REG1 = [%REG2]`
 # MOV `%REG1`, `[%REG2+$OFF]`
 `10100000` - 4 bytes
 
-Copy the value at memory location `[%REG2 + `$OFF`]` into `%REG1`: `%REG1 = [%REG2 + `$OFF`]`
+Copy the value at memory location `[%REG2 + $OFF]` into `%REG1`: `%REG1 = [%REG2 + $OFF]`
 
 # MOV `[%REG1]`, `%REG2`
 `01100010` - 2 bytes
 
-Copy the value from `%REG2` into memory location `[%REG1]`: `[%REG1]` = `%REG2``
+Copy the value from `%REG2` into memory location `[%REG1]`: `[%REG1] = %REG2`
 
 # MOV `[%REG1]`, `$IMM`
 `10000001` - 4 bytes
 
-Copy the value `$IMM` into memory location `[%REG1]`: `[%REG1]` = `$IMM``
+Copy the value `$IMM` into memory location `[%REG1]`: `[%REG1] = $IMM`
 
 # MOV `[%REG1+$OFF]`, `%REG2`
 `10100001` - 4 bytes
 
-Copy the value from `%REG2` into memory location `[%REG1 + `$OFF`]`: `[%REG1 + `$OFF`]` = `%REG2``
+Copy the value from `%REG2` into memory location `[%REG1 + $OFF]`: `[%REG1 + $OFF] = %REG2`
 
 # MOV `[%REG1+$OFF]`, `$IMM`
 `11000000` - 6 bytes
 
-Copy the value `$IMM` into memory location `[%REG1 + `$OFF`]`: `[%REG1 + `$OFF`]` = `$IMM``
+Copy the value `$IMM` into memory location `[%REG1 + $OFF]`: `[%REG1 + $OFF] = $IMM`
 
 # PUSH `%REG`
 `00000001` - 2 bytes
@@ -178,19 +178,19 @@ Increment `[%REG+$OFF]` by one
 `00000101` - 2 bytes
 
 Decrement `%REG` by one
-`%REG += 1`
+`%REG -= 1`
 
 # DEC `[%REG]`
 `00000110` - 2 bytes
 
 Decrement `[%REG]` by one
-`[%REG] += 1`
+`[%REG] -= 1`
 
 # DEC `[%REG+$OFF]`
 `10000011` - 4 bytes
 
 Decrement `[%REG+$OFF]` by one
-`[%REG+$OFF] += 1`
+`[%REG+$OFF] -= 1`
 
 
 # MUL `%REG1`, `%REG2`
@@ -227,31 +227,31 @@ Multiply `%REG1` by `[%REG2+$OFF]` and store the result in `%REG1`
 `01101100` - 2 bytes
 
 Divide `%REG1` by `%REG2` and store the result in `%REG1`
-`%REG1 *= %REG2`
+`%REG1 /= %REG2`
 
 # DIV `%REG1`, `[%REG2]`
 `01101101` - 2 bytes
 
 Divide `%REG1` by `[%REG2]` and store the result in `%REG1`
-`%REG1 *= [%REG2]`
+`%REG1 /= [%REG2]`
 
 # DIV `[%REG1]`, `%REG2`
 `01101110` - 2 bytes
 
 Divide `[%REG1]` by `%REG2` and store the result in `[%REG1]`
-`[%REG1] *= %REG2`
+`[%REG1] /= %REG2`
 
 # DIV `%REG`, `$IMM`
 `10000101` - 4 bytes
 
 Divide `%REG1` by `$IMM` and store the result in `%REG1`
-`%REG1 *= $IMM`
+`%REG1 /= $IMM`
 
 # DIV `%REG1`, `[%REG2+$OFF]`
 `10100101` - 4 bytes
 
 Divide `%REG1` by `[%REG2+$OFF]` and store the result in `%REG1`
-`%REG1 *= [%REG2+$OFF]`
+`%REG1 /= [%REG2+$OFF]`
 
 # AND `%REG1`, `%REG2`
 `01101111` - 2 bytes
@@ -336,21 +336,21 @@ Shift `[%REG+$OFF]` left logically by `$IMM` bits
 
 Shift `%REG` right logically by `$IMM` bits
 
-`%REG = %REG << $IMM`
+`%REG = %REG >> $IMM`
 
 # RSH `[%REG]`, `$IMM`
 `10001001` - 2 bytes
 
 Shift `[%REG]` right logically by `$IMM` bits
 
-`[%REG] = [%REG] << $IMM`
+`[%REG] = [%REG] >> $IMM`
 
 # RSH `[%REG+$OFF]`, `$IMM`
 `11000010` - 4 bytes
 
 Shift `[%REG+$OFF]` right logically by `$IMM` bits
 
-`[%REG+$OFF] = [%REG+$OFF] << $IMM`
+`[%REG+$OFF] = [%REG+$OFF] >> $IMM`
 
 # CALL LABEL
 `01000010` - 3 bytes
@@ -388,6 +388,7 @@ Pops the value off the memory stack and puts it into `%PC`
 # CMP `%REG1`, `%REG2`
 `01110101` - 2 bytes
 
+DOES NOT MUTATE THE REGISTERS
 Compare `%REG1` and `%REG2` by subtractiong them. Sets the flags appropriately
  
 # CMP `%REG`, `$IMM`
@@ -518,12 +519,12 @@ Puts the value from `[%REG + $OFF]` on to the port `$PORT`
 # LOAD4 `%SIMDREG`, `$ADDR`
 `00001011` - 4 bytes
 
-Load 4 bytes from memory into `%SIMDRED`, starting at `$ADDR`
+Load 4 bytes from memory into `%SIMDREG`, starting at `$ADDR`
 
 # STORE4 `%SIMDREG`, `$ADDR`
 `00001100` - 4 bytes
 
-Store 4 bytes from `%SIMDRED` into `[$ADDR]`
+Store 4 bytes from `%SIMDREG` into `[$ADDR]`
 
 # ADD4 `%SIMDREG1, %SIMDREG2`
 `01111010` - 2 bytes
