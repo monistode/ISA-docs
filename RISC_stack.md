@@ -125,28 +125,18 @@ Push the value of `num` onto the register stack
 
 `push` - `001001`
 
-Pop a value from the register stack, push the value onto the memory stack
+`push %FR` (old assembler's `pushf`) - `001010`
 
-
-### PUSHF
-
-`pushf` - `001010`
-
-Push the value of the flag register onto the memory stack
+Copy the value of the flag register or pop a value from the register stack, push the value onto the memory stack
 
 
 ### POP
 
 `pop` - `001100`
 
-Pop a value from the memory stack and push it onto the register stack
+`pop %FR` (old assembler's `popf`) - `001101`
 
-
-### POPF
-
-`popf` - `001101`
-
-Pop a value from the memory stack and set the flag register to it
+Pop a value from the memory stack and set the flag register to it or push it onto the register stack
 
 
 ### ADD
