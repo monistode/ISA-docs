@@ -1,4 +1,3 @@
-
 # RISC STACK
 
 
@@ -23,20 +22,17 @@ TODO: figure out how to encode immediate constants
 
 
 Two stacks:
-
 - register stack - 16 bits per item, stores the data for operations. Starts at the 256th byte, grows upward. Stack underflow not handled
 - memory stack - 16 bits per item, stores the function return addresses. Starts at the 1024th byre, grows downward. Stack underflow nor collisions with the register stack not handled
 
 
 IO:
-
 - multiple serial ports
 - 16-bit address space for port numbers
 - simple in and out operations
 
 
 Registers:
-
 - `PC` - `16 bits` - program counter, points to a 6-bit byte in the `text` section
 - `FR` - `4-16 bits` - flag register with the least significant bits representing `CF` `ZF` `OF` `SF`; (up to 16 bits because it has to fit on the stack)
   - TODO: figure out when it's cleared
@@ -51,7 +47,6 @@ Opcode structure: `| 1 bit immediate sign | 5-bit opcode |`
 
 
 Arithmetic operations:
-
 - signed - look at `OF` to determine whether there was overflow; and at `SF` to determine the sign of the result (regardless of overflow)
 - unsigned - look at `CF` to determine whether there was overflow
 
@@ -76,8 +71,7 @@ Stop the execution
 `load [mem]` (old assembler's `load $mem`) - `100000`
 
 Push a value onto the register stack. Value source:
-
-- no arguments - pop the value at `[tos]` and use it as the address
+- no arguments - pop an address from the register stack and use it as the address
 - `%FR` - the flag register itself
 - `[mem]` - from the memory location at `[mem]`
 
@@ -88,7 +82,7 @@ Assumption: the data is always present; the address space is filled up entirely
 
 `store` - `000100`
 
-Pop the value from the register stack, then store it at `[tos]` (this whole operation does two consecutive pops from the stack)
+Pop the value from the register stack, then store it at the value the top register stack item points to (this whole operation does two consecutive pops from the stack)
 
 `store $imm` - `100001`
 
@@ -161,7 +155,7 @@ Pop a value from the memory stack and set the flag register to it
 
 Pop two items from the register stack, add their values, pushing the result onto the register stack.
 
-Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
 
@@ -174,14 +168,14 @@ Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected h
 
 Pop two items from the register stack, subtracting the second one (in order of popping) from the first, and push the result (the two's complement) onto the register stack.
 
-Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 
 ### MUL
 
 `mul` - `010000`
 
-Pop two items from the register stack, multiply them, and push the result onto the register stack. Set the `CF` to 1 if there is an unsigned overflow (the upper half of the result isn't 0), the `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+Pop two items from the register stack, multiply them, and push the result onto the register stack. Set the `CF` to 1 if there is an unsigned overflow (the upper half of the result isn't 0), the `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 TODO: figure out why the implementation sets all the other flags as if it's addition
 
@@ -279,14 +273,14 @@ TODO: figure out whether we should set the `OF` to the shifted out bit for 1-bit
 
 `call` - `010110`
 
-Push the next instruction's location onto the memory stack, pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (`call 0` is an infinite loop; `call 1` is equivalent to just a push)
+Push the next instruction's location onto the memory stack, pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (sets `PC` to it instead of incrementing it; `call 0` is an infinite loop; `call 1` is equivalent to just a push)
 
 
 ### RET
 
 `ret` - `010111`
 
-Pop an address from the memory stack and and set it as the *relative* address to execute next (`call 0` is an infinite loop; `call 1` is equivalent to just a push).
+Pop an address from the memory stack and set it as the *relative* address to execute next (set `PC` to it instead of incrementing it).
 
 
 ### CMP
@@ -326,7 +320,7 @@ Pop a value (or two if the immediate isn't provided) from the register stack, co
 
 `jmp $imm` - `101000`
 
-Pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (`jmp 0` is an infinite loop; `jmp 1` is equivalent to `nop`)
+Pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (set `PC` to it instead of incrementing it; `jmp 0` is an infinite loop; `jmp 1` is equivalent to `nop`)
 
 
 ### JC
@@ -336,9 +330,8 @@ Pop a value from the register stack if it's not provided, and set it as the *rel
 `jc $num` - `101001`
 
 Pop a value from the register stack. If it's a boolean true (`0xffff`):
-
 - pop a value from the register stack if an immediate isn't provided
-- set the value as the *relative* address to execute next (`jc 0` is an infinite loop; `jc 1` is equivalent to `nop`)
+- set the value as the *relative* address to execute next (set `PC` to it instead of incrementing it; `jc 0` is an infinite loop; `jc 1` is equivalent to `nop`)
 
 
 ### IN
