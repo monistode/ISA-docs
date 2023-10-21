@@ -22,6 +22,19 @@ Offset instruction:
 - `| 3-bit style specifier | 5-bit opcode | 3-bit register | 16-bit constant | 3-bit register |`
 - `| 3-bit style specifier | 5-bit opcode | 3-bit register | 3-bit register | 16-bit constant |`
 
+One stack - the memory stack.
+
+IO:
+- multiple serial ports
+- 16-bit address space for port numbers
+- simple in and out operations
+
+Arithmetic operations:
+- signed - look at `OF` to determine whether there was overflow; and at `SF` to determine the sign of the result (regardless of overflow)
+- unsigned - look at `CF` to determine whether there was overflow
+
+Only division is a strictly signed operation
+
 ## Instructions
 
 # HALT
@@ -90,19 +103,25 @@ Pops the value from the stack and puts it into `%REG`
 `01000001` - 3 bytes
 
 Replaces three instructions on moving the stack further down when
-calling a new procedure: `push %ebp / mov %ebp, %esp / sub %esp, $num`.
+calling a new procedure: `push %BP / mov %BP, %SP / sub %SP, $IMM`.
 Notice that you still have to push the other registers onto the memory stack
 
 # LEAVE
 `00100000` - 1 byte
 
 Replaces two instructions when returning to the
-previous procedure's stack frame: `mov %esp, %ebp / pop %ebp`
+previous procedure's stack frame: `mov %SP, %BP / pop %BP`
 
 # ADD `%REG1`, `[%REG2]`
 `01100011` - 2 bytes
 
 Add the value at `[%REG2]` to `%REG1`
+
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
+Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
+
+Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected how you'd expect it to with addition for them - we compute (most_significant_bit_a $=$ most_significant_bit_b and most_significant_bit_result $\ne$ most_significant_bit_a). [See implementation](https://github.com/ucu-computer-science/Hardware-Simulator-and-Assembler/blob/master/modules/functions.py#L430)
 
 `%REG1 += [%REG2]`
 
@@ -111,12 +130,24 @@ Add the value at `[%REG2]` to `%REG1`
 
 Add the value at `%REG2` to `%REG1`
 
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
+Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
+
+Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected how you'd expect it to with addition for them - we compute (most_significant_bit_a $=$ most_significant_bit_b and most_significant_bit_result $\ne$ most_significant_bit_a). [See implementation](https://github.com/ucu-computer-science/Hardware-Simulator-and-Assembler/blob/master/modules/functions.py#L430)
+
 `%REG1 += %REG2`
 
 # ADD `%REG1`, `[%REG2+$OFF]`
 `10100010` - 4 bytes
 
 Add the value at `[%REG2+$OFF]` to `%REG1`
+
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
+Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
+
+Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected how you'd expect it to with addition for them - we compute (most_significant_bit_a $=$ most_significant_bit_b and most_significant_bit_result $\ne$ most_significant_bit_a). [See implementation](https://github.com/ucu-computer-science/Hardware-Simulator-and-Assembler/blob/master/modules/functions.py#L430)
 
 `%REG1 += [%REG2+$OFF]`
 
@@ -125,12 +156,20 @@ Add the value at `[%REG2+$OFF]` to `%REG1`
 
 Add the value at `%REG2` to `[%REG1]`
 
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
+Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
+
+Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected how you'd expect it to with addition for them - we compute (most_significant_bit_a $=$ most_significant_bit_b and most_significant_bit_result $\ne$ most_significant_bit_a). [See implementation](https://github.com/ucu-computer-science/Hardware-Simulator-and-Assembler/blob/master/modules/functions.py#L430)
+
 `[%REG1] += %REG2`
 
 # SUB `%REG1`, `[%REG2]`
 `01100110` - 2 bytes
 
 Subtract the value at `[%REG2]` from `%REG1`
+
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 `%REG1 -= [%REG2]`
 
@@ -139,6 +178,8 @@ Subtract the value at `[%REG2]` from `%REG1`
 
 Subtract the value at `%REG2` from `%REG1`
 
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 `%REG1 -= %REG2`
 
 # SUB `%REG1`, `[%REG2+$OFF]`
@@ -146,12 +187,16 @@ Subtract the value at `%REG2` from `%REG1`
 
 Subtract the value at `[%REG2+$OFF]` from `%REG1`
 
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 `%REG1 -= [%REG2+$OFF]`
 
 # SUB `[%REG1]`, `%REG2`
 `01101000` - 2 bytes
 
 Subtract the value at `%REG2` from `[%REG1]`
+
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 `[%REG1] -= %REG2`
 
@@ -161,11 +206,15 @@ Subtract the value at `%REG2` from `[%REG1]`
 Increment `%REG` by one
 `%REG += 1`
 
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 # INC `[%REG]`
 `00000100` - 2 bytes
 
 Increment `[%REG]` by one
 `[%REG] += 1`
+
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 # INC `[%REG+$OFF]`
 `10000010` - 4 bytes
@@ -173,12 +222,17 @@ Increment `[%REG]` by one
 Increment `[%REG+$OFF]` by one
 `[%REG+$OFF] += 1`
 
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 
 # DEC `%REG`
 `00000101` - 2 bytes
 
 Decrement `%REG` by one
+
 `%REG -= 1`
+
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 # DEC `[%REG]`
 `00000110` - 2 bytes
@@ -186,12 +240,15 @@ Decrement `%REG` by one
 Decrement `[%REG]` by one
 `[%REG] -= 1`
 
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 # DEC `[%REG+$OFF]`
 `10000011` - 4 bytes
 
 Decrement `[%REG+$OFF]` by one
 `[%REG+$OFF] -= 1`
 
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 # MUL `%REG1`, `%REG2`
 `01101001` - 2 bytes
@@ -199,11 +256,15 @@ Decrement `[%REG+$OFF]` by one
 Multiply `%REG1` by `%REG2` and store the result in `%REG1`
 `%REG1 *= %REG2`
 
+Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
+
 # MUL `%REG1`, `[%REG2]`
 `01101010` - 2 bytes
 
 Multiply `%REG1` by `[%REG2]` and store the result in `%REG1`
 `%REG1 *= [%REG2]`
+
+Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
 
 # MUL `[%REG1]`, `%REG2`
 `01101011` - 2 bytes
@@ -211,11 +272,15 @@ Multiply `%REG1` by `[%REG2]` and store the result in `%REG1`
 Multiply `[%REG1]` by `%REG2` and store the result in `[%REG1]`
 `[%REG1] *= %REG2`
 
+Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
+
 # MUL `%REG`, `$IMM`
 `10000100` - 4 bytes
 
 Multiply `%REG1` by `$IMM` and store the result in `%REG1`
 `%REG1 *= $IMM`
+
+Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
 
 # MUL `%REG1`, `[%REG2+$OFF]`
 `10100100` - 4 bytes
@@ -223,11 +288,17 @@ Multiply `%REG1` by `$IMM` and store the result in `%REG1`
 Multiply `%REG1` by `[%REG2+$OFF]` and store the result in `%REG1`
 `%REG1 *= [%REG2+$OFF]`
 
+Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
+
 # DIV `%REG1`, `%REG2`
 `01101100` - 2 bytes
 
 Divide `%REG1` by `%REG2` and store the result in `%REG1`
 `%REG1 /= %REG2`
+
+Reset the flag register, and set the `ZF` to 0 if the result is truly 0 (and not rounded).
+
+If zero division is encountered, set the result, the `CF` and `OF` to all-1's and the rest of the flags to 0.
 
 # DIV `%REG1`, `[%REG2]`
 `01101101` - 2 bytes
@@ -235,17 +306,29 @@ Divide `%REG1` by `%REG2` and store the result in `%REG1`
 Divide `%REG1` by `[%REG2]` and store the result in `%REG1`
 `%REG1 /= [%REG2]`
 
+Reset the flag register, and set the `ZF` to 0 if the result is truly 0 (and not rounded).
+
+If zero division is encountered, set the result, the `CF` and `OF` to all-1's and the rest of the flags to 0.
+
 # DIV `[%REG1]`, `%REG2`
 `01101110` - 2 bytes
 
 Divide `[%REG1]` by `%REG2` and store the result in `[%REG1]`
 `[%REG1] /= %REG2`
 
+Reset the flag register, and set the `ZF` to 0 if the result is truly 0 (and not rounded).
+
+If zero division is encountered, set the result, the `CF` and `OF` to all-1's and the rest of the flags to 0.
+
 # DIV `%REG`, `$IMM`
 `10000101` - 4 bytes
 
 Divide `%REG1` by `$IMM` and store the result in `%REG1`
 `%REG1 /= $IMM`
+
+Reset the flag register, and set the `ZF` to 0 if the result is truly 0 (and not rounded).
+
+If zero division is encountered, set the result, the `CF` and `OF` to all-1's and the rest of the flags to 0.
 
 # DIV `%REG1`, `[%REG2+$OFF]`
 `10100101` - 4 bytes
@@ -260,12 +343,16 @@ Binary and `%REG1` and `%REG2`, storing the result into `%REG1`
 
 `%REG1 &= %REG2`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # AND `%REG1`, `[%REG2]`
 `01110000` - 2 bytes
 
 Binary and `%REG1` and `[%REG2]`, storing the result into `%REG1`
 
 `%REG1 &= [%REG2]`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 # OR `%REG1`, `%REG2`
 `01110001` - 2 bytes
@@ -274,12 +361,16 @@ Binary or `%REG1` and `%REG2`, storing the result into `%REG1`
 
 `%REG1 |= %REG2`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # OR `%REG1`, `[%REG2]`
 `01110010` - 2 bytes
 
 Binary or `%REG1` and `[%REG2]`, storing the result into `%REG1`
 
 `%REG1 |= [%REG2]`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 # XOR `%REG1`, `%REG2`
 `01110011` - 2 bytes
@@ -288,12 +379,16 @@ Binary xor `%REG1` and `%REG2`, storing the result into `%REG1`
 
 `%REG1 ^= %REG2`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # XOR `%REG1`, `[%REG2]`
 `01110100` - 2 bytes
 
 Binary xor `%REG1` and `[%REG2]`, storing the result into `%REG1`
 
 `%REG1 ^= [%REG2]`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 # NOT `%REG1`
 `00000111`  - 2 bytes
@@ -302,12 +397,16 @@ Binary not `%REG1`
 
 `%REG1 = ~%REG1`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # NOT `[%REG]`
 `00001000` - 2 bytes
 
 Binary not `[%REG1]`
 
 `[%REG1] = ~[%REG1]`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
  
 # LSH `%REG`, `$IMM`
@@ -317,6 +416,8 @@ Shift `%REG` left logically by `$IMM` bits
 
 `%REG = %REG << $IMM`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # LSH `[%REG]`, `$IMM`
 `10000111` - 2 bytes
 
@@ -324,12 +425,16 @@ Shift `[%REG]` left logically by `$IMM` bits
 
 `[%REG] = [%REG] << $IMM`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # LSH `[%REG+$OFF]`, `$IMM`
 `11000001` - 4 bytes
 
 Shift `[%REG+$OFF]` left logically by `$IMM` bits
 
 `[%REG+$OFF] = [%REG+$OFF] << $IMM`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
  
 # RSH `%REG`, `$IMM`
 `10001000` - 2 bytes
@@ -338,6 +443,8 @@ Shift `%REG` right logically by `$IMM` bits
 
 `%REG = %REG >> $IMM`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # RSH `[%REG]`, `$IMM`
 `10001001` - 2 bytes
 
@@ -345,12 +452,16 @@ Shift `[%REG]` right logically by `$IMM` bits
 
 `[%REG] = [%REG] >> $IMM`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # RSH `[%REG+$OFF]`, `$IMM`
 `11000010` - 4 bytes
 
 Shift `[%REG+$OFF]` right logically by `$IMM` bits
 
 `[%REG+$OFF] = [%REG+$OFF] >> $IMM`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 # CALL LABEL
 `01000010` - 3 bytes
@@ -390,12 +501,16 @@ Pops the value off the memory stack and puts it into `%PC`
 
 DOES NOT MUTATE THE REGISTERS
 Compare `%REG1` and `%REG2` by subtractiong them. Sets the flags appropriately
+
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
  
 # CMP `%REG`, `$IMM`
 `10001011` - 4 bytes
 
 DOES NOT MUTATE THE REGISTERS
 Compare `%REG1` and `$IMM` by subtractiong them. Sets the flags appropriately
+
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
  
 # CMP `%REG1`, `[%REG2]`
 `10001011` - 2 bytes
@@ -403,18 +518,23 @@ Compare `%REG1` and `$IMM` by subtractiong them. Sets the flags appropriately
 DOES NOT MUTATE THE REGISTERS
 Compare `%REG1` and `[%REG2]` by subtractiong them. Sets the flags appropriately
 
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
  
 # CMP `%REG1`, `[%REG2+$OFF]`
 `10100110` - 4 bytes
 
 DOES NOT MUTATE THE REGISTERS
 Compare `%REG1` and `[%REG2 + $OFF]` by subtractiong them. Sets the flags appropriately
+
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
  
 # TEST `%REG1`, `%REG2`
 `01110111` - 2 bytes
 
 DOES NOT MUTATE THE REGISTERS
 Performs bitwise and on `%REG1` and `%REG2`. Sets the flags accordingly. 
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
  
 # TEST `%REG1`, `[%REG2]`
 `01111000` - 2 bytes
@@ -422,11 +542,15 @@ Performs bitwise and on `%REG1` and `%REG2`. Sets the flags accordingly.
 DOES NOT MUTATE THE REGISTERS
 Performs bitwise and on `%REG1` and `[%REG2]`. Sets the flags accordingly. 
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 # TEST `%REG1`, `[%REG2+$OFF]`
 
 `10100111` - 4 bytes
 DOES NOT MUTATE THE REGISTERS
 Performs bitwise and on `%REG1` and `[%REG2+$OFF]`. Sets the flags accordingly. 
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 # JMP `[$OFF]`
 `01000011` - 2 bytes
@@ -538,6 +662,8 @@ Add two SIMD registers (`%SIMDREG1 * %SIMDREG2`), storing the result into `%SIMD
 
 Subtract two SIMD registers (`%SIMDREG1 - %SIMDREG2`), storing the result into `%SIMDREG1`.
 
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 `%SIMDREG1 -= %SIMDREG2`
 
 # MUL4 `%SIMDREG1, %SIMDREG2`
@@ -546,6 +672,7 @@ Subtract two SIMD registers (`%SIMDREG1 - %SIMDREG2`), storing the result into `
 Multiply two SIMD registers (`%SIMDREG1 * %SIMDREG2`), storing the result into `%SIMDREG1`.
 
 `%SIMDREG1 *= %SIMDREG2`
+
 
 # DIV4 `%SIMDREG1, %SIMDREG2`
 `01111101` - 2 bytes

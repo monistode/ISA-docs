@@ -74,12 +74,24 @@ Pops the previous value from the memory stack into `%REG`
 
 Add items from the `%REG2` register and register `%REG3`, and puts the result into `%REG1`
 
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
+Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
+
+Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected how you'd expect it to with addition for them - we compute (most_significant_bit_a $=$ most_significant_bit_b and most_significant_bit_result $\ne$ most_significant_bit_a). [See implementation](https://github.com/ucu-computer-science/Hardware-Simulator-and-Assembler/blob/master/modules/functions.py#L430)
+
 ### ADDC `%REG1, %REG2, %REG3`
 `100100` - 2 bytes
 
 Add items **WITH CARRY** from the `%REG2` register and register `%REG3`, and puts the result into `%REG1`
 
 `%REG1 = %REG2 + %REG3 + CF`
+
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
+Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
+
+Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected how you'd expect it to with addition for them - we compute (most_significant_bit_a $=$ most_significant_bit_b and most_significant_bit_result $\ne$ most_significant_bit_a). [See implementation](https://github.com/ucu-computer-science/Hardware-Simulator-and-Assembler/blob/master/modules/functions.py#L430)
 
 ### SUB `%REG1, %REG2, %REG3`
 `000100` -  2 bytes
@@ -88,12 +100,16 @@ Subtract from the `%REG2` register  the value in register `%REG3`, and puts the 
 
 `%REG1 = %REG2 - %REG3`
 
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 ### MUL `%REG1, %REG2, %REG3`
 `001010` - 2 bytes
 
 Multiply items from the `%REG2` register and register `%REG3`, and puts the result into `%REG1`
 
 `%REG1 = %REG2 * %REG3`
+
+Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
 
 ### DIV `%REG1, %REG2, %REG3`
 `001011` - 2 bytes
@@ -102,12 +118,18 @@ Divide the `%REG3` register  by register `%REG2`, and puts the result into `%REG
 
 `%REG1 = %REG2 / %REG3`
 
+Reset the flag register, and set the `ZF` to 0 if the result is truly 0 (and not rounded).
+
+If zero division is encountered, set the result, the `CF` and `OF` to all-1's and the rest of the flags to 0.
+
 ### AND `%REG1, %REG2, %REG3`
 `001100` - 2 bytes
 
 Computes binary and between word from the `%REG2` register and `%REG3` location, saving the result into `%REG1`
 
 `%REG1  = %REG2 & %REG3`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 ### OR `%REG1, %REG2, %REG3`
 `001101` - 2 bytes
@@ -116,12 +138,16 @@ Computes binary or between word from the `%REG2` register and `%REG3` location, 
 
 `%REG1  = %REG2 | %REG3`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 ### XOR `%REG1, %REG2, %REG3`
 `001110` - 2 bytes
 
 Computes binary xor between word from the `%REG2` register and `%REG3` location, saving the result into `%REG1`
 
 `%REG1  = %REG2 ^ %REG3`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 ### NOT `%REG1, %REG2`
 `001111` - 2 bytes
@@ -130,6 +156,8 @@ Computes binary not of the `%REG2` register, saving the result into `%REG1`
 
 `%REG1  = ~%REG2`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 ### LSH `%REG1, %REG2, %REG3`
 `010000` - 2 bytes
 
@@ -137,12 +165,16 @@ Shifts `%REG2` left by `%REG3` bits, and saves it to `%REG1`
 
 `%REG1  = %REG2  << %REG3`
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 ### RSH `%REG1, %REG2, %REG3`
 `010001` - 2 bytes
 
 Shifts `%REG2` right by `%REG3` bits, and saves it to `%REG1`
 
 `%REG1  = %REG2  >> %REG3`
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 ###  CALL `label`
 `010010` - 2 bytes
@@ -169,20 +201,28 @@ Transfers control to the popped instruction location
 
 Compares value of register `%REG1` and value `%REG2`, by subtracting the second one from the first one, changing the flags accordingly
 
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+
 ### CMP `%REG1, $num`
 `010110` - 2 bytes
 
 Compares value of register `%REG1` and value `$num`, by subtracting the second one from the first one, changing the flags accordingly
+
+Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
 ### TEST `%REG1, %REG2`
 `010111` - 2 bytes
 
 Performs bitwise `and` operation between the `%REG1` and `%REG2`, changing the flags accordingly
 
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
+
 ### TEST `%REG1, $num`
 `011000` - 2 bytes
 
 Performs bitwise `and` operation between the `%REG1` and the value `$unm`, changing the flags accordingly
+
+Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 ### JMP `$num`
 `011001` - 2 bytes
