@@ -1,0 +1,27 @@
+# Assembler command specification
+text_byte_length: int # 6, the length of one command
+data_byte_length: int # 8, the length of one data
+text_address_size: int # 16, how many text bytes can be addressed
+data_address_size: int # 16, how many data bytes can be addressed
+register_groups:
+  - flag:
+    length: int # 0, the length of the registers' codes
+    registers:
+      FR: int # 0b0, the register's code
+  - generic:
+    length: int # 3
+    registers:
+      R0: int # 0b000
+      R1: int # 0b001
+  - shortened:
+    length: int # 2
+    registers:
+      R0: int # 0b00
+commands:
+  - mnemonic: str # "load"
+    opcode: int # 0b000000
+    arguments:
+      - type: str # "register"
+        group: group # "shortened"
+      - type: str # "data_addr"
+        bits: int # 16
