@@ -2,6 +2,8 @@
 
 ## Structure
 
+#### THE ISA IS BIG ENDIAN
+
 There is three addressing modes: register, immediate, memory location
 Register name starts with `%`
 

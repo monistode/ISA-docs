@@ -1,6 +1,9 @@
 # CISC REGISTER
 
 ## Structure
+
+#### THE ISA IS BIG ENDIAN
+
 Register CISC architecture uses 1-6 bytes for instructions:
 There is 7 registers:
 - `FR` - `8 bits` - Flag register with least significant bits representing flags - CF, ZF, OF, SF (not a general-purpose register)
