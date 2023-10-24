@@ -33,7 +33,7 @@ IO:
 
 
 Registers:
-- `PC` - `16 bits` - program counter, points to a 6-bit byte in the `text` section
+- `PC` - `16 bits` - program counter, points to a 6-bit byte in the `text` section. Is always *the next* instruction to be executed, similar to x86
 - `FR` - `4-16 bits` - flag register with the least significant bits representing `CF` `ZF` `OF` `SF`; (up to 16 bits because it has to fit on the stack)
   - TODO: figure out when it's cleared
 - `TOS` - `15 or 16 bits` - initial value 256 (assuming 16 bits) - points to two bytes in the data section - the top of the *register stack*; grows upward (a push increments)
@@ -43,14 +43,16 @@ Registers:
   - TODO: figure out how to decrement `tos` below 0 / increment above $2^n$
 
 
-Opcode structure: `| 1 bit immediate sign | 5-bit opcode |`
+Opcode structure:
+- `| 0b0 (immediate not there) | 5-bit opcode |`
+- `| 0b1 (immediate present) | 5-bit opcode | 0b00 (padding) | 16-bit immediate |`
 
 
-Arithmetic operations:
+Arithmetic operations (big-endian):
 - signed - look at `OF` to determine whether there was overflow; and at `SF` to determine the sign of the result (regardless of overflow)
 - unsigned - look at `CF` to determine whether there was overflow
 
-Only division is a strictly signed operation
+Only division is a strictly signed operation.
 
 
 ## Instructions
@@ -263,14 +265,14 @@ TODO: figure out whether we should set the `OF` to the shifted out bit for 1-bit
 
 `call` - `010110`
 
-Push the next instruction's location onto the memory stack, pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (sets `PC` to it instead of incrementing it; `call 0` is an infinite loop; `call 1` is equivalent to just a push)
+Push the next instruction's *absolute* location (the current `PC`) onto the memory stack, pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (add it to the `PC` after incrementing it; `call 0` pushes the instruction; `call -3` is an infinite loop)
 
 
 ### RET
 
 `ret` - `010111`
 
-Pop an address from the memory stack and set it as the *relative* address to execute next (set `PC` to it instead of incrementing it).
+Pop an address from the memory stack and set it as the *absolute* address to execute next (set `PC` to it instead of incrementing it).
 
 
 ### CMP
@@ -310,7 +312,7 @@ Pop a value (or two if the immediate isn't provided) from the register stack, co
 
 `jmp $imm` - `101000`
 
-Pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (set `PC` to it instead of incrementing it; `jmp 0` is an infinite loop; `jmp 1` is equivalent to `nop`)
+Pop a value from the register stack if it's not provided, and set it as the *relative* address to execute next (add it to the `PC` after incrementing it; `jmp 0` does nothing; `jmp -3` is an infinite loop)
 
 
 ### JC
@@ -321,7 +323,7 @@ Pop a value from the register stack if it's not provided, and set it as the *rel
 
 Pop a value from the register stack. If it's a boolean true (`0xffff`):
 - pop a value from the register stack if an immediate isn't provided
-- set the value as the *relative* address to execute next (set `PC` to it instead of incrementing it; `jc 0` is an infinite loop; `jc 1` is equivalent to `nop`)
+- set it as the *relative* address to execute next (add it to the `PC` after incrementing it; `jc 0` does nothing; `jc -3` loops until all boolean true values are popped)
 
 
 ### IN
