@@ -4,16 +4,9 @@ text_address_size: 16
 data_address_size: 16
 register_groups:
   - flag:
-    length: 3
+    length: 0
     registers:
-      FR: # TODO
-  - generic:
-    length: 3
-    registers:
-      PC: # TODO
-      FR: # TODO
-      TOS: # TODO
-      SP: # TODO
+      - FR
 commands:
   - mnemonic: halt
     opcode: !!int 0b000000
@@ -105,16 +98,16 @@ commands:
     arguments:
       - type: padding
         bits: 2
-      - type: immediate
+      - type: text_addr
         bits: 16
   - mnemonic: call
     opcode: !!int 0b010110
   - mnemonic: ret
     opcode: !!int 0b010111
   - mnemonic: cmp
-    opcode: !!int # TODO
+    opcode: !!int 0b0 # TODO
   - mnemonic: cmp
-    opcode: !!int # TODO
+    opcode: !!int 0b0 # TODO
     arguments:
       - type: padding
         bits: 2
@@ -145,7 +138,7 @@ commands:
     arguments:
       - type: padding
         bits: 2
-      - type: immediate
+      - type: text_addr
         bits: 16
   - mnemonic: jc
     opcode: !!int 0b011011
@@ -154,7 +147,7 @@ commands:
     arguments:
       - type: padding
         bits: 2
-      - type: immediate
+      - type: text_addr
         bits: 16
   - mnemonic: in
     opcode: !!int 0b101010
