@@ -1,0 +1,174 @@
+text_byte_length: 6
+data_byte_length: 8
+text_address_size: 16
+data_address_size: 16
+register_groups:
+  - flag:
+    length: 3
+    registers:
+      FR: # TODO
+  - generic:
+    length: 3
+    registers:
+      PC: # TODO
+      FR: # TODO
+      TOS: # TODO
+      SP: # TODO
+commands:
+  - mnemonic: halt
+    opcode: !!int 0b000000
+  - mnemonic: load
+    opcode: !!int 0b000001
+  - mnemonic: load
+    opcode: !!int 0b000010
+    arguments:
+      - type: register
+        group: flag # So the length is 0
+  - mnemonic: load
+    opcode: !!int 0b100000
+    arguments:
+      - type: data_address
+        bits: 16
+  - mnemonic: store
+    opcode: !!int 0b000100
+  - mnemonic: store
+    opcode: !!int 0b100001
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: store
+    opcode: !!int 0b000101
+    arguments:
+      - type: register
+        group: flag
+  - mnemonic: swap
+    opcode: !!int 0b000110
+  - mnemonic: dup
+    opcode: !!int 0b000111
+  - mnemonic: dup2
+    opcode: !!int 0b001000
+  - mnemonic: mov
+    opcode: !!int 0b100010
+    arhuments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: push
+    opcode: !!int 0b001001
+  - mnemonic: push
+    opcode: !!int 0b001010
+    arguments:
+      - type: register
+        group: flag
+  - mnemonic: pop
+    opcode: !!int 0b001100
+  - mnemonic: pop
+    opcode: !!int 0b001101
+    arguments:
+      - type: register
+        group: flag
+  - mnemonic: add
+    opcode: !!int 0b001110
+  - mnemonic: sub
+    opcode: !!int 0b001110
+  - mnemonic: mul
+    opcode: !!int 0b010000
+  - mnemonic: div
+    opcode: !!int 0b010001
+  - mnemonic: and
+    opcode: !!int 0b010010
+  - mnemonic: or
+    opcode: !!int 0b010011
+  - mnemonic: xor
+    opcode: !!int 0b010100
+  - mnemonic: not
+    opcode: !!int 0b010101
+  - mnemonic: lsh
+    opcode: !!int 0b100011
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: rsh
+    opcode: !!int 0b100100
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: call
+    opcode: !!int 0b100101
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: call
+    opcode: !!int 0b010110
+  - mnemonic: ret
+    opcode: !!int 0b010111
+  - mnemonic: cmp
+    opcode: !!int # TODO
+  - mnemonic: cmp
+    opcode: !!int # TODO
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: cmpe
+    opcode: !!int 0b011000
+  - mnemonic: cmpe
+    opcode: !!int 0b100110
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: cmpb
+    opcode: !!int 0b011001
+  - mnemonic: cmpb
+    opcode: !!int 0b100111
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: jmp
+    opcode: !!int 0b011010
+  - mnemonic: jmp
+    opcode: !!int 0b101000
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: jc
+    opcode: !!int 0b011011
+  - mnemonic: jc
+    opcode: !!int 0b101001
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: in
+    opcode: !!int 0b101010
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: out
+    opcode: !!int 0b101011
+    arguments:
+      - type: padding
+        bits: 2
+      - type: immediate
+        bits: 16
+  - mnemonic: non
+    opcode: !!int 0b011100
