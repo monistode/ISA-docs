@@ -1,3 +1,4 @@
+opcode_length: 6
 text_byte_length: 6
 data_byte_length: 8
 text_address_size: 16
