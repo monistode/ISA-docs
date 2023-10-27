@@ -1,4 +1,5 @@
 opcode_length: 6
+opcode_offset: 0
 text_byte_length: 6
 data_byte_length: 8
 text_address_size: 16
@@ -99,7 +100,7 @@ commands:
     arguments:
       - type: padding
         bits: 2
-      - type: text_addr
+      - type: text_address
         bits: 16
   - mnemonic: call
     opcode: !!int 0b010110
@@ -139,7 +140,7 @@ commands:
     arguments:
       - type: padding
         bits: 2
-      - type: text_addr
+      - type: text_address
         bits: 16
   - mnemonic: jc
     opcode: !!int 0b011011
@@ -148,7 +149,7 @@ commands:
     arguments:
       - type: padding
         bits: 2
-      - type: text_addr
+      - type: text_address
         bits: 16
   - mnemonic: in
     opcode: !!int 0b101010
