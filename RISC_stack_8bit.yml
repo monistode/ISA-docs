@@ -1,6 +1,7 @@
-opcode_length: 6
+# This is an 8-bit clone of the stack ISA
+opcode_length: 8
 opcode_offset: 0
-text_byte_length: 6
+text_byte_length: 8
 data_byte_length: 8
 text_address_size: 16
 data_address_size: 16
@@ -29,8 +30,6 @@ commands:
   - mnemonic: store
     opcode: !!int 0b100001
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: store
@@ -47,8 +46,6 @@ commands:
   - mnemonic: mov
     opcode: !!int 0b100010
     arhuments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: push
@@ -84,22 +81,16 @@ commands:
   - mnemonic: lsh
     opcode: !!int 0b100011
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: rsh
     opcode: !!int 0b100100
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: call
     opcode: !!int 0b100101
     arguments:
-      - type: padding
-        bits: 2
       - type: text_address
         bits: 16
   - mnemonic: call
@@ -111,8 +102,6 @@ commands:
   - mnemonic: cmp
     opcode: !!int 0b0 # TODO
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: cmpe
@@ -120,8 +109,6 @@ commands:
   - mnemonic: cmpe
     opcode: !!int 0b100110
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: cmpb
@@ -129,8 +116,6 @@ commands:
   - mnemonic: cmpb
     opcode: !!int 0b100111
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: jmp
@@ -138,8 +123,6 @@ commands:
   - mnemonic: jmp
     opcode: !!int 0b101000
     arguments:
-      - type: padding
-        bits: 2
       - type: text_address
         bits: 16
   - mnemonic: jc
@@ -147,22 +130,16 @@ commands:
   - mnemonic: jc
     opcode: !!int 0b101001
     arguments:
-      - type: padding
-        bits: 2
       - type: text_address
         bits: 16
   - mnemonic: in
     opcode: !!int 0b101010
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: out
     opcode: !!int 0b101011
     arguments:
-      - type: padding
-        bits: 2
       - type: immediate
         bits: 16
   - mnemonic: non
