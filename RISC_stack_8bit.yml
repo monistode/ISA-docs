@@ -45,7 +45,7 @@ commands:
     opcode: !!int 0b001000
   - mnemonic: mov
     opcode: !!int 0b100010
-    arhuments:
+    arguments:
       - type: immediate
         bits: 16
   - mnemonic: push

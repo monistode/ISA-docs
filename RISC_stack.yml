@@ -46,7 +46,7 @@ commands:
     opcode: !!int 0b001000
   - mnemonic: mov
     opcode: !!int 0b100010
-    arhuments:
+    arguments:
       - type: padding
         bits: 2
       - type: immediate
