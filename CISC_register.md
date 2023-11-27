@@ -196,7 +196,7 @@ Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` 
 `%REG1 -= %REG2`
 
 # SUB `%REG1`, `[%REG2+$OFFSET]`
-`10100010` - 4 bytes
+`10100011` - 4 bytes
 
 Subtract the value at `[%REG2+$OFFSET]` from `%REG1`
 
