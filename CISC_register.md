@@ -32,8 +32,8 @@ Command sizes according to the 3-bit specifier:
 - `000` - 1 byte if halt, 2 bytes otherwise, 4 bytes if SIMD
 - `100` - 4 bytes
 - `011` - 2 bytes
-- `101` - 4 bytes
-- `110` - 4 bytes
+- `101` - 5 bytes
+- `110` - 6 bytes
 - `010` - 3 bytes
 - `001` - 1 byte
 
@@ -72,10 +72,10 @@ YOU COULD DO `MOV %M00H %R00` / `MOV %R00 %M00H` / `MOV %M00L %R00` / `MOV %R00 
 
 Copy the value at memory location `[%REG2]` into `%REG1`: `%REG1 = [%REG2]`
 
-# MOV `%REG1`, `[%REG2+%OFFSET_REG]`
+# MOV `%REG1`, `[%REG2+$OFFSET]`
 `10100000` - 4 bytes
 
-Copy the value at memory location `[%REG2 + %OFFSET_REG]` into `%REG1`: `%REG1 = [%REG2 + %OFFSET_REG]`
+Copy the value at memory location `[%REG2 + $OFFSET]` into `%REG1`: `%REG1 = [%REG2 + $OFFSET]`
 
 # MOV `[%REG1]`, `%REG2`
 `01100010` - 2 bytes
@@ -87,15 +87,15 @@ Copy the value from `%REG2` into memory location `[%REG1]`: `[%REG1] = %REG2`
 
 Copy the value `$IMM` into memory location `[%REG1]`: `[%REG1] = $IMM`
 
-# MOV `[%REG1+%OFFSET_REG]`, `%REG2`
-`10100001` - 4 bytes
+# MOV `[%REG1+$OFFSET]`, `%REG2`
+`10100001` - 5 bytes
 
-Copy the value from `%REG2` into memory location `[%REG1 + %OFFSET_REG]`: `[%REG1 + %OFFSET_REG] = %REG2`
+Copy the value from `%REG2` into memory location `[%REG1 + $OFFSET]`: `[%REG1 + $OFFSET] = %REG2`
 
-# MOV `[%REG1+%OFFSET_REG]`, `$IMM`
-`11000000` - 4 bytes
+# MOV `[%REG1+$OFFSET]`, `$IMM`
+`11000000` - 6 bytes
 
-Copy the value `$IMM` into memory location `[%REG1 + %OFFSET_REG]`: `[%REG1 + %OFFSET_REG] = $IMM`
+Copy the value `$IMM` into memory location `[%REG1 + $OFFSET]`: `[%REG1 + $OFFSET] = $IMM`
 
 # PUSH `%REG`
 `00000001` - 2 bytes
@@ -139,7 +139,7 @@ Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected h
 `%REG1 += [%REG2]`
 
 # ADD `%REG1`, `%REG2`
-`01100100` - 2bytes
+`01100100` - 2 bytes
 
 Add the value at `%REG2` to `%REG1`
 
@@ -151,10 +151,10 @@ Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected h
 
 `%REG1 += %REG2`
 
-# ADD `%REG1`, `[%REG2+%OFFSET_REG]`
+# ADD `%REG1`, `[%REG2+$OFFSET]`
 `10100010` - 4 bytes
 
-Add the value at `[%REG2+%OFFSET_REG]` to `%REG1`
+Add the value at `[%REG2+$OFFSET]` to `%REG1`
 
 Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
@@ -162,7 +162,7 @@ Note: the implementation isn't at all working as expected, as the `change_flag_r
 
 Note: further operations' TODOs say "as if it's addition"; `OF` isn't affected how you'd expect it to with addition for them - we compute (most_significant_bit_a $=$ most_significant_bit_b and most_significant_bit_result $\ne$ most_significant_bit_a). [See implementation](https://github.com/ucu-computer-science/Hardware-Simulator-and-Assembler/blob/master/modules/functions.py#L430)
 
-`%REG1 += [%REG2+%OFFSET_REG]`
+`%REG1 += [%REG2+$OFFSET]`
 
 # ADD `[%REG1]`, `%REG2`
 `01100101` - 2 bytes
@@ -195,14 +195,14 @@ Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` 
 
 `%REG1 -= %REG2`
 
-# SUB `%REG1`, `[%REG2+%OFFSET_REG]`
+# SUB `%REG1`, `[%REG2+$OFFSET]`
 `10100010` - 4 bytes
 
-Subtract the value at `[%REG2+%OFFSET_REG]` from `%REG1`
+Subtract the value at `[%REG2+$OFFSET]` from `%REG1`
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
-`%REG1 -= [%REG2+%OFFSET_REG]`
+`%REG1 -= [%REG2+$OFFSET]`
 
 # SUB `[%REG1]`, `%REG2`
 `01101000` - 2 bytes
@@ -229,11 +229,11 @@ Increment `[%REG]` by one
 
 Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
-# INC `[%REG+%OFFSET_REG]`
+# INC `[%REG+$OFFSET]`
 `10000010` - 4 bytes
 
-Increment `[%REG+%OFFSET_REG]` by one
-`[%REG+%OFFSET_REG] += 1`
+Increment `[%REG+$OFFSET]` by one
+`[%REG+$OFFSET] += 1`
 
 Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
@@ -255,11 +255,11 @@ Decrement `[%REG]` by one
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
-# DEC `[%REG+%OFFSET_REG]`
+# DEC `[%REG+$OFFSET]`
 `10000011` - 4 bytes
 
-Decrement `[%REG+%OFFSET_REG]` by one
-`[%REG+%OFFSET_REG] -= 1`
+Decrement `[%REG+$OFFSET]` by one
+`[%REG+$OFFSET] -= 1`
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
@@ -295,11 +295,11 @@ Multiply `%REG1` by `$IMM` and store the result in `%REG1`
 
 Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
 
-# MUL `%REG1`, `[%REG2+%OFFSET_REG]`
+# MUL `%REG1`, `[%REG2+$OFFSET]`
 `10100100` - 4 bytes
 
-Multiply `%REG1` by `[%REG2+%OFFSET_REG]` and store the result in `%REG1`
-`%REG1 *= [%REG2+%OFFSET_REG]`
+Multiply `%REG1` by `[%REG2+$OFFSET]` and store the result in `%REG1`
+`%REG1 *= [%REG2+$OFFSET]`
 
 Reset the flag register, The CF and OF are set when the result cannot fit in the operands size.
 
@@ -343,11 +343,11 @@ Reset the flag register, and set the `ZF` to 0 if the result is truly 0 (and not
 
 If zero division is encountered, set the result, the `CF` and `OF` to all-1's and the rest of the flags to 0.
 
-# DIV `%REG1`, `[%REG2+%OFFSET_REG]`
+# DIV `%REG1`, `[%REG2+$OFFSET]`
 `10100101` - 4 bytes
 
-Divide `%REG1` by `[%REG2+%OFFSET_REG]` and store the result in `%REG1`
-`%REG1 /= [%REG2+%OFFSET_REG]`
+Divide `%REG1` by `[%REG2+$OFFSET]` and store the result in `%REG1`
+`%REG1 /= [%REG2+$OFFSET]`
 
 # AND `%REG1`, `%REG2`
 `01101111` - 2 bytes
@@ -440,12 +440,12 @@ Shift `[%REG]` left logically by `$IMM` bits
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-# LSH `[%REG+%OFFSET_REG]`, `$IMM`
-`11000001` - 4 bytes
+# LSH `[%REG+$OFFSET]`, `$IMM`
+`11000001` - 6 bytes
 
-Shift `[%REG+%OFFSET_REG]` left logically by `$IMM` bits
+Shift `[%REG+$OFFSET]` left logically by `$IMM` bits
 
-`[%REG+%OFFSET_REG] = [%REG+%OFFSET_REG] << $IMM`
+`[%REG+$OFFSET] = [%REG+$OFFSET] << $IMM`
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
  
@@ -467,12 +467,12 @@ Shift `[%REG]` right logically by `$IMM` bits
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-# RSH `[%REG+%OFFSET_REG]`, `$IMM`
-`11000010` - 4 bytes
+# RSH `[%REG+$OFFSET]`, `$IMM`
+`11000010` - 6 bytes
 
-Shift `[%REG+%OFFSET_REG]` right logically by `$IMM` bits
+Shift `[%REG+$OFFSET]` right logically by `$IMM` bits
 
-`[%REG+%OFFSET_REG] = [%REG+%OFFSET_REG] >> $IMM`
+`[%REG+$OFFSET] = [%REG+$OFFSET] >> $IMM`
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
@@ -497,12 +497,12 @@ Jumps to value at register
 
 `%PC = %REG`
 
-# CALL `%REG+%OFFSET_REG`
+# CALL `%REG+$OFFSET`
 `10001001` - 4 bytes
 
-Jumps to `%REG + %OFFSET_REG`
+Jumps to `%REG + $OFFSET`
 
-`%PC = %REG + %OFFSET_REG`
+`%PC = %REG + $OFFSET`
 
 # RET
 `00100001` - 1 byte
@@ -533,11 +533,11 @@ Compare `%REG1` and `[%REG2]` by subtractiong them. Sets the flags appropriately
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
  
-# CMP `%REG1`, `[%REG2+%OFFSET_REG]`
+# CMP `%REG1`, `[%REG2+$OFFSET]`
 `10100110` - 4 bytes
 
 DOES NOT MUTATE THE REGISTERS
-Compare `%REG1` and `[%REG2 + %OFFSET_REG]` by subtractiong them. Sets the flags appropriately
+Compare `%REG1` and `[%REG2 + $OFFSET]` by subtractiong them. Sets the flags appropriately
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
  
@@ -557,20 +557,20 @@ Performs bitwise and on `%REG1` and `[%REG2]`. Sets the flags accordingly.
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-# TEST `%REG1`, `[%REG2+%OFFSET_REG]`
+# TEST `%REG1`, `[%REG2+$OFFSET]`
 
 `10100111` - 4 bytes
 DOES NOT MUTATE THE REGISTERS
-Performs bitwise and on `%REG1` and `[%REG2+%OFFSET_REG]`. Sets the flags accordingly. 
+Performs bitwise and on `%REG1` and `[%REG2+$OFFSET]`. Sets the flags accordingly. 
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-# JMP `[%OFFSET_REG]`
+# JMP `[$OFFSET]`
 `01000011` - 2 bytes
 
-Sets `%PC` to `%OFFSET_REG`, effectively jumping to it.
+Sets `%PC` to `$OFFSET`, effectively jumping to it.
 
-`%PC = %OFFSET_REG`
+`%PC = $OFFSET`
 
  
 # JMP `%REG`
@@ -580,39 +580,39 @@ Sets `%PC` to `%REH`, effectively jumping to it.
 
 `%PC = %REG`
 
-# JMP `%REG+%OFFSET_REG`
+# JMP `%REG+$OFFSET`
 `10001100` - 4 bytes
  
-Sets `%PC` to `%REG + %OFFSET_REG`, effectively jumping to it.
+Sets `%PC` to `%REG + $OFFSET`, effectively jumping to it.
 
-`%PC = %REG + %OFFSET_REG`
+`%PC = %REG + $OFFSET`
 
-# JE `%OFFSET_REG`
+# JE `$OFFSET`
 `01000100` - 3 bytes
 
-If `ZF == 1`, Sets `%PC` to `%OFFSET_REG`, effectively jumping to that address
+If `ZF == 1`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
  
-# JNE `%OFFSET_REG`
+# JNE `$OFFSET`
 `01000101` - 2 bytes
 
-If `ZF == 0`, Sets `%PC` to `%OFFSET_REG`, effectively jumping to that address
+If `ZF == 0`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
  
-# JG `%OFFSET_REG`
+# JG `$OFFSET`
 `01000110` - 3 bytes
 
-If `ZF == 0 && SF == OF`, Sets `%PC` to `%OFFSET_REG`, effectively jumping to that address
+If `ZF == 0 && SF == OF`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
  
-# JGE `%OFFSET_REG`
+# JGE `$OFFSET`
 `01000111` - 3 bytes
 
 If `Cf == 0`, Sets `%PC` to `$num`, effectively jumping to that address
  
-# JL `%OFFSET_REG`
+# JL `$OFFSET`
 `01001000` - 3 bytes 
 
-If `SF != OF`, Sets `%PC` to `%OFFSET_REG`, effectively jumping to that address
+If `SF != OF`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
 
-# JLE `%OFFSET_REG`
+# JLE `$OFFSET`
 `01001001` - 3 bytes
 
 If `CF == 1 || ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
@@ -627,10 +627,10 @@ Transfers data from the device at port `$PORT` to `%REG`
 
 Transfers data from the device at port `$PORT` to `[%REG]`
 
-# IN `[%REG+%OFFSET_REG]`, `$PORT`
-`11000011` - 4 bytes
+# IN `[%REG+$OFFSET]`, `$PORT`
+`11000011` - 6 bytes
 
-Transfers data from the device at port `$PORT` to `[%REG + %OFFSET_REG]`
+Transfers data from the device at port `$PORT` to `[%REG + $OFFSET]`
  			
 # OUT `$PORT`, `$IMM`
 `10001111` - 4 bytes
@@ -648,10 +648,10 @@ Puts the value from `%REG` on to the port `$PORT`
 
 Puts the value from `[%REG]` on to the port `$PORT`
 
-# OUT `$PORT`, `[%REG+%OFFSET_REG]`
-`11000100` - 4 bytes
+# OUT `$PORT`, `[%REG+$OFFSET]`
+`11000100` - 6 bytes
 
-Puts the value from `[%REG + %OFFSET_REG]` on to the port `$PORT`
+Puts the value from `[%REG + $OFFSET]` on to the port `$PORT`
 
 # LOAD4 `%SIMDREG`, `$ADDR`
 `00001011` - 4 bytes
