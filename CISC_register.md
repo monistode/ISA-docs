@@ -565,18 +565,18 @@ Performs bitwise and on `%REG1` and `[%REG2+$OFFSET]`. Sets the flags accordingl
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-# JMP `[$OFFSET]`
+# JMP `$IMM`
 `01000011` - 2 bytes
 
-Sets `%PC` to `$OFFSET`, effectively jumping to it.
+Sets `%PC` to `$IMM`, effectively jumping to it.
 
-`%PC = $OFFSET`
+`%PC = $IMM`
 
  
 # JMP `%REG`
 `00001010`
  
-Sets `%PC` to `%REH`, effectively jumping to it.
+Sets `%PC` to `%REG`, effectively jumping to it.
 
 `%PC = %REG`
 
@@ -587,43 +587,43 @@ Sets `%PC` to `%REG + $OFFSET`, effectively jumping to it.
 
 `%PC = %REG + $OFFSET`
 
-# JE `$OFFSET`
+# JE `$IMM`
 `01000100` - 3 bytes
 
-If `ZF == 1`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
+If `ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
  
-# JNE `$OFFSET`
+# JNE `$IMM`
 `01000101` - 2 bytes
 
-If `ZF == 0`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
+If `ZF == 0`, Sets `%PC` to `$IMM`, effectively jumping to that address
  
-# JG `$OFFSET`
+# JG `$IMM`
 `01000110` - 3 bytes
 
-If `ZF == 0 && SF == OF`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
+If `ZF == 0 && SF == OF`, Sets `%PC` to `$IMM`, effectively jumping to that address
  
-# JGE `$OFFSET`
+# JGE `$IMM`
 `01000111` - 3 bytes
 
-If `Cf == 0`, Sets `%PC` to `$num`, effectively jumping to that address
+If `Cf == 0`, Sets `%PC` to `$IMM`, effectively jumping to that address
  
-# JL `$OFFSET`
+# JL `$IMM`
 `01001000` - 3 bytes 
 
-If `SF != OF`, Sets `%PC` to `$OFFSET`, effectively jumping to that address
+If `SF != OF`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-# JLE `$OFFSET`
+# JLE `$IMM`
 `01001001` - 3 bytes
 
-If `CF == 1 || ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
+If `CF == 1 || ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
  			
 # IN `%REG`, `$PORT`
-`10001101` - 3 bytes
+`10001101` - 4 bytes
 
 Transfers data from the device at port `$PORT` to `%REG`
 
 # IN `[%REG]`, `$PORT`
-`10001110` - 3 bytes
+`10001110` - 4 bytes
 
 Transfers data from the device at port `$PORT` to `[%REG]`
 
@@ -633,18 +633,18 @@ Transfers data from the device at port `$PORT` to `[%REG]`
 Transfers data from the device at port `$PORT` to `[%REG + $OFFSET]`
  			
 # OUT `$PORT`, `$IMM`
-`10001111` - 4 bytes
+`10001111` - 5 bytes
 
 Puts the value `$IMM` on to the port `$PORT`
 
 
 # OUT `$PORT`, `%REG`
-`10001111` - 3 bytes
+`10001111` - 4 bytes
 
 Puts the value from `%REG` on to the port `$PORT`
 
 # OUT `$PORT`, `[%REG]`
-`10010000` - 3 bytes
+`10010000` - 4 bytes
 
 Puts the value from `[%REG]` on to the port `$PORT`
 
