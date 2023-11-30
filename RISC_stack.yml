@@ -22,6 +22,8 @@ commands:
   - mnemonic: load
     opcode: !!int 0b100000
     arguments:
+      - padding:
+          bits: 2
       - type: data_address
         bits: 16
   - mnemonic: store
