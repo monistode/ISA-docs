@@ -108,15 +108,6 @@ commands:
     opcode: !!int 0b010110
   - mnemonic: ret
     opcode: !!int 0b010111
-  - mnemonic: cmp
-    opcode: !!int 0b0 # TODO
-  - mnemonic: cmp
-    opcode: !!int 0b0 # TODO
-    arguments:
-      - type: padding
-        bits: 2
-      - type: immediate
-        bits: 16
   - mnemonic: cmpe
     opcode: !!int 0b011000
   - mnemonic: cmpe

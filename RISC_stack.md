@@ -275,19 +275,6 @@ Push the next instruction's *absolute* location (the current `PC`) onto the memo
 Pop an address from the memory stack and set it as the *absolute* address to execute next (set `PC` to it instead of incrementing it).
 
 
-### CMP
-
-`cmp`
-
-`cmp $num`
-
-Pop the two top values from the register stack and set the flags - `CF`, `ZF`, `OF`, `SF` - as if it's performing a subtraction operation.
-
-TODO: figure out an opcode for this, as it does not exist in the implementation, only in the documentation
-
-TODO: figure out whether it should pop the values from the stack
-
-
 ### CMPE
 
 `cmpe` (compare equals) - `011000`
