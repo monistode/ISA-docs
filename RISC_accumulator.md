@@ -7,7 +7,7 @@
 There is three addressing modes: register, immediate, memory location
 Register name starts with `%`
 
-8-bit instructions, 80 instructions
+8-bit instructions, 81 instructions
 
 Registers:
 - `FR` - `8 bits` (flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
@@ -73,6 +73,16 @@ Stores `ACC` into  the index register: `%IR1 = %ACC`
 `00100110` - 1 byte
 
 Stores `ACC` into  the index register: `%IR2 = %ACC`
+
+### TI12
+`01001100` - 1 byte
+
+Copies `%IR1` to `%IR2`
+
+### TI21
+`01001101` - 1 byte
+
+Copies `%IR2` to `%IR1`
 
 ### MOV `$imm`
 `10000001` - 2 bytes
