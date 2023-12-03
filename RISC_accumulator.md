@@ -34,6 +34,11 @@ Disables cpu until power is cycled
 
 Loads the memory cell `ACC` is pointing to: `%ACC = [%ACC]`
 
+### LOAD $IMM
+`11110000` - 3 bytes
+
+Loads the memory cell `ACC` is pointing to: `%ACC = $IMM`
+
 ### LOADF
 `00000010` - 1 byte
 
@@ -64,10 +69,20 @@ Loads the index register: `%ACC = %IR2`
 
 Stores `%ACC` into the memory cell `IR1` is pointing to: `[%IR1] = %ACC`
 
+### STORE1 $IMM
+`11110001` - 3 bytes
+
+Stores `%IMM` into the memory cell `IR1` is pointing to: `[%IR1] = $IMM`
+
 ### STORE2
 `00100111` - 1 byte
 
 Stores `%ACC` into the memory cell `IR2` is pointing to: `[%IR2] = %ACC`
+
+### STORE2 $IMM
+`11110010` - 3 bytes
+
+Stores `%IMM` into the memory cell `IR2` is pointing to: `[%IR2] = $IMM`
 
 ### STOREF
 `00000101` - 1 byte
@@ -521,11 +536,6 @@ If `CF == 1 || ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that addre
 `10001110` - 3 bytes
 
 Transfers data from the device at port `num` to `%ACC`
-
-### OUT `$num1, $num2`
-`10001111` - 3 bytes
-
-Transfers data from `num2` to the device at port `num1`
 
 ### OUT `$num1`
 `00100010` - 3 bytes
