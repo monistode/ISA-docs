@@ -64,7 +64,7 @@ Loads the index register: `%ACC = %IR1`
 
 Loads the index register: `%ACC = %IR2`
 
-### STORE %IR1
+### STORE `[%IR1]`
 `00000011` - 1 byte
 
 Stores `%ACC` into the memory cell `IR1` is pointing to: `[%IR1] = %ACC`
@@ -74,7 +74,7 @@ Stores `%ACC` into the memory cell `IR1` is pointing to: `[%IR1] = %ACC`
 
 Stores `%IMM` into the memory cell `IR1` is pointing to: `[%IR1] = $IMM`
 
-### STORE %IR2
+### STORE `[%IR2]`
 `00100011` - 1 byte
 
 Stores `%ACC` into the memory cell `IR2` is pointing to: `[%IR2] = %ACC`
@@ -538,6 +538,6 @@ If `CF == 1 || ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that addre
 Transfers data from the device at port `num` to `%ACC`
 
 ### OUT `$num1`
-`00011110` - 3 bytes
+`10001111` - 3 bytes
 
 Transfers data from `%ACC` to the device at port `num1`
