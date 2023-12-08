@@ -44,12 +44,12 @@ Loads the memory cell `ACC` is pointing to: `%ACC = $IMM`
 
 Loads the flag register: `%ACC = %FR`
 
-### LOAD %IR %IR1
+### LOAD %IR1
 `01000001` - 1 byte
 
-Loads the value at first index register: `%ACC = ]%IR1]`
+Loads the value at first index register: `%ACC = [%IR1]`
 
-### LOAD %IR1
+### LOAD %IR2
 `01000010` - 1 byte
 
 Loads the value at second index register: `%ACC = [%IR2]`
