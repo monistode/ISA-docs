@@ -633,7 +633,7 @@ Transfers data from the device at port `$PORT` to `[%REG]`
 Transfers data from the device at port `$PORT` to `[%REG + $OFFSET]`
  			
 # OUT `$PORT`, `$IMM`
-`10001111` - 5 bytes
+`11001111` - 5 bytes
 
 Puts the value `$IMM` on to the port `$PORT`
 
