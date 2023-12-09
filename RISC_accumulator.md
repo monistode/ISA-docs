@@ -538,6 +538,6 @@ If `CF == 1 || ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that addre
 Transfers data from the device at port `num` to `%ACC`
 
 ### OUT `$num1`
-`10010001` - 3 bytes
+`10011000` - 3 bytes
 
 Transfers data from `%ACC` to the device at port `num1`
