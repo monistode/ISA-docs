@@ -214,7 +214,7 @@ Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` 
 `[%REG1] -= %REG2`
 
 # INC `%REG`
-`00000011` - 2 bytes
+`00011111:` - 2 bytes
 
 Increment `%REG` by one
 `%REG += 1`
@@ -566,7 +566,7 @@ Performs bitwise and on `%REG1` and `[%REG2+$OFFSET]`. Sets the flags accordingl
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 # JMP `$IMM`
-`01000011` - 2 bytes
+`01000011` - 3 bytes
 
 Sets `%PC` to `$IMM`, effectively jumping to it.
 
@@ -574,7 +574,7 @@ Sets `%PC` to `$IMM`, effectively jumping to it.
 
  
 # JMP `%REG`
-`00001010`
+`00001010` - 2 bytes
  
 Sets `%PC` to `%REG`, effectively jumping to it.
 
@@ -593,7 +593,7 @@ Sets `%PC` to `%REG + $OFFSET`, effectively jumping to it.
 If `ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
  
 # JNE `$IMM`
-`01000101` - 2 bytes
+`01000101` - 3 bytes
 
 If `ZF == 0`, Sets `%PC` to `$IMM`, effectively jumping to that address
  
@@ -633,7 +633,7 @@ Transfers data from the device at port `$PORT` to `[%REG]`
 Transfers data from the device at port `$PORT` to `[%REG + $OFFSET]`
  			
 # OUT `$PORT`, `$IMM`
-`10001111` - 5 bytes
+`11001111` - 5 bytes
 
 Puts the value `$IMM` on to the port `$PORT`
 
