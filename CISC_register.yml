@@ -5,10 +5,6 @@ data_byte_length: 8
 text_address_size: 16
 data_address_size: 16
 register_groups:
-  flag:
-    length: 0
-    registers:
-      - FR
   generic:
     length: 3
     registers:
