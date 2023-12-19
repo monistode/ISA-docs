@@ -401,11 +401,6 @@ commands:
       - type: text_address
         bits: 16
   - mnemonic: call
-    opcode: !!int 0b10000100
-    arguments:
-      - type: data_address
-        bits: 16
-  - mnemonic: call
     opcode: !!int 0b00010100
     arguments:
       - type: register
