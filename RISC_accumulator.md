@@ -13,7 +13,7 @@ Registers:
 - `FR` - `8 bits` (flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
 - `SP` - `16 bits` - stack pointer
 - `PC` - `16 bits` - program counter
-- `IR` - `16 bits` - index register (used for indexing in arrays)
+- `IR1`, `IR2` - `16 bits` - index registers (used for indexing in arrays)
 - `ACC` - `16 bits` - the accumulator
 
 Opcode structure:
@@ -37,7 +37,7 @@ Loads the memory cell `ACC` is pointing to: `%ACC = [%ACC]`
 ### LOAD $IMM
 `10010000` - 3 bytes
 
-Loads the memory cell `ACC` is pointing to: `%ACC = $IMM`
+Loads immediate to `ACC`: `%ACC = $IMM`
 
 ### LOADF
 `00000010` - 1 byte
@@ -284,7 +284,7 @@ Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 ### AND `[%IR1]`
 `00110010` - 1 byte
 
-Computes binary and between word from the `%ACC` register and `[%IR2]` location, saving the result into `%ACC`
+Computes binary and between word from the `%ACC` register and `[%IR1]` location, saving the result into `%ACC`
 
 ### AND `[%IR2]`
 `00110011` - 1 byte
@@ -303,7 +303,7 @@ Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 ### OR `[%IR1]`
 `00110100` - 1 byte
 
-Computes binary or between word from the `%ACC` register and `[%IR2]` location, saving the result into `%ACC`
+Computes binary or between word from the `%ACC` register and `[%IR1]` location, saving the result into `%ACC`
 
 ### OR `[%IR2]`
 `00110101` - 1 byte
@@ -322,7 +322,7 @@ Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 ### XOR `[%IR1]`
 `00110110` - 1 byte
 
-Computes binary xor between word from the `%ACC` register and `[%IR2]` location, saving the result into `%ACC`
+Computes binary xor between word from the `%ACC` register and `[%IR1]` location, saving the result into `%ACC`
 
 ### XOR `[%IR2]`
 `00110111` - 1 byte
@@ -341,7 +341,7 @@ Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 ### NOT `[%IR1]`
 `00111000` - 1 byte
 
-Computes binary not between word from the `%ACC` register and `[%IR2]` location, saving the result into `%ACC`
+Computes binary not between word from the `%ACC` register and `[%IR1]` location, saving the result into `%ACC`
 
 ### NOT `[%IR2]`
 `00111110` - 1 byte
@@ -366,17 +366,17 @@ Shifts the value from register `acc` by `num` to the left, saving the result in 
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-###  CALL `label`
-`10000100` - 3 bytes
+### CALL `label`
+`10000100` - 3 bytes #TODO: change number - it repeats
 
 Pushes the next instruction's location on to the memory stack, transfers control to the location at `label`
 
-###  CALL `$num`
+### CALL `$num`
 `10000100` - 3 bytes
 
 Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$num]`
 
-###  CALL
+### CALL
 `00010100` - 1 byte
 
 Pushes the next instruction's location on to the memory stack, transfers control to the location at `%ACC`

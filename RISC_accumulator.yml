@@ -1,0 +1,554 @@
+opcode_length: 8
+opcode_offset: 0
+text_byte_length: 8
+data_byte_length: 8
+text_address_size: 16
+data_address_size: 16
+register_groups:
+  ACC:
+    length: 0
+    registers:
+      - ACC
+  IR1:
+    length: 0
+    registers:
+      - IR1
+  IR2:
+    length: 0
+    registers:
+      - IR2
+  flag:
+    length: 0
+    registers:
+      - flag
+commands:
+  - mnemonic: halt
+    opcode: !!int 0b00000000
+  - mnemonic: load
+    opcode: !!int 0b00000001
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: ACC
+  - mnemonic: load
+    opcode: !!int 0b10010000
+    arguments:
+      - type: register
+        group: ACC
+      - type: immediate
+        bits: 16
+  - mnemonic: loadf
+    opcode: !!int 0b00000010
+    arguments:
+      - type: register
+        group: ACC
+      - type: register
+        group: flag
+  - mnemonic: load
+    opcode: !!int 0b01000001
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: load
+    opcode: !!int 0b01000010
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: mov
+    opcode: !!int 0b00011111
+    arguments:
+      - type: register
+        group: ACC
+      - type: register
+        group: IR1
+  - mnemonic: mov
+    opcode: !!int 0b00100000
+    arguments:
+      - type: register
+        group: ACC
+      - type: register
+        group: IR2
+  - mnemonic: store
+    opcode: !!int 0b00000011
+    arguments:
+      - type: register_address
+        group: IR1
+      - type: register
+        group: ACC
+  - mnemonic: store
+    opcode: !!int 0b10010001
+    arguments:
+      - type: register_address
+        group: IR1
+      - type: immediate
+        bits: 16
+  - mnemonic: store
+    opcode: !!int 0b00100011
+    arguments:
+      - type: register_address
+        group: IR2
+      - type: register
+        group: ACC
+  - mnemonic: store
+    opcode: !!int 0b11110010
+    arguments:
+      - type: register_address
+        group: IR2
+      - type: immediate
+        bits: 16
+  - mnemonic: storef
+    opcode: !!int 0b00000100
+    arguments:
+      - type: register
+        group: flag
+      - type: register
+        group: ACC
+  - mnemonic: mov
+    opcode: !!int 0b00100001
+    arguments:
+      - type: register
+        group: IR1
+      - type: register
+        group: ACC
+  - mnemonic: mov
+    opcode: !!int 0b00100010
+    arguments:
+      - type: register
+        group: IR2
+      - type: register
+        group: ACC
+  - mnemonic: mov
+    opcode: !!int 0b00111111
+    arguments:
+      - type: register
+        group: IR2
+      - type: register
+        group: IR1
+  - mnemonic: mov
+    opcode: !!int 0b01000000
+    arguments:
+      - type: register
+        group: IR1
+      - type: register
+        group: IR2
+  - mnemonic: mov
+    opcode: !!int 0b10000000
+    arguments:
+      - type: register
+        group: ACC
+      - type: immediate
+        bits: 16
+  - mnemonic: push
+    opcode: !!int 0b00000101
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: pop
+    opcode: !!int 0b00000111
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: pushf
+    opcode: !!int 0b00000110
+    arguments:
+      - type: register
+        group: flag
+  - mnemonic: popf
+    opcode: !!int 0b00001000
+    arguments:
+      - type: register
+        group: flag
+  - mnemonic: push
+    opcode: !!int 0b00111101
+    arguments:
+      - type: register_address
+        group: IR1
+  - mnemonic: pop
+    opcode: !!int 0b00001001
+    arguments:
+      - type: register_address
+        group: IR1
+  - mnemonic: push
+    opcode: !!int 0b00100100
+    arguments:
+      - type: register_address
+        group: IR2
+  - mnemonic: pop
+    opcode: !!int 0b00100101
+    arguments:
+      - type: register_address
+        group: IR2
+  - mnemonic: add
+    opcode: !!int 0b00001010
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: add
+    opcode: !!int 0b00100110
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: add
+    opcode: !!int 0b00100111
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: sub
+    opcode: !!int 0b00001011
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: sub
+    opcode: !!int 0b00101000
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: sub
+    opcode: !!int 0b00101001
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: mul
+    opcode: !!int 0b00001110
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: mul
+    opcode: !!int 0b00101010
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: mul
+    opcode: !!int 0b00101011
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: div
+    opcode: !!int 0b00001111
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: div
+    opcode: !!int 0b00101100
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: div
+    opcode: !!int 0b00101101
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: inc
+    opcode: !!int 0b00001100
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: inc
+    opcode: !!int 0b00101110
+    arguments:
+      - type: register
+        group: IR1
+  - mnemonic: inc
+    opcode: !!int 0b00101111
+    arguments:
+      - type: register
+        group: IR2
+  - mnemonic: dec
+    opcode: !!int 0b00001101
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: dec
+    opcode: !!int 0b00110000
+    arguments:
+      - type: register
+        group: IR1
+  - mnemonic: dec
+    opcode: !!int 0b00110001
+    arguments:
+      - type: register
+        group: IR2
+  - mnemonic: and
+    opcode: !!int 0b00010000
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: and
+    opcode: !!int 0b00110010
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: and
+    opcode: !!int 0b00110011
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: or
+    opcode: !!int 0b00010001
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: or
+    opcode: !!int 0b00110100
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: or
+    opcode: !!int 0b00110101
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: xor
+    opcode: !!int 0b00010010
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: xor
+    opcode: !!int 0b00110110
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: xor
+    opcode: !!int 0b00110111
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: not
+    opcode: !!int 0b00010011
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: not
+    opcode: !!int 0b00111000
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: not
+    opcode: !!int 0b00111110
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: lsh
+    opcode: !!int 0b10000001
+    arguments:
+      - type: register
+        group: ACC
+      - type: immediate
+        bits: 16
+  - mnemonic: rsh
+    opcode: !!int 0b10000010
+    arguments:
+      - type: register
+        group: ACC
+      - type: immediate
+        bits: 16
+  - mnemonic: call
+    opcode: !!int 0b10000100
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: call
+    opcode: !!int 0b10000100
+    arguments:
+      - type: data_address
+        bits: 16
+  - mnemonic: call
+    opcode: !!int 0b00010100
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: ret
+    opcode: !!int 0b00010101
+  - mnemonic: cmp
+    opcode: !!int 0b00010110
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: cmp
+    opcode: !!int 0b10000101
+    arguments:
+      - type: register
+        group: ACC
+      - type: immediate
+        bits: 16
+  - mnemonic: cmp
+    opcode: !!int 0b00111001
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: cmp
+    opcode: !!int 0b00111010
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: test
+    opcode: !!int 0b10000110
+    arguments:
+      - type: register
+        group: ACC
+      - type: immediate
+        bits: 16
+  - mnemonic: test
+    opcode: !!int 0b10001111
+    arguments:
+      - type: register
+        group: ACC
+      - type: data_address
+        bits: 16
+  - mnemonic: test
+    opcode: !!int 0b00111011
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR1
+  - mnemonic: test
+    opcode: !!int 0b00111100
+    arguments:
+      - type: register
+        group: ACC
+      - type: register_address
+        group: IR2
+  - mnemonic: jmp
+    opcode: !!int 0b10000111
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: jmp
+    opcode: !!int 0b00010111
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: je
+    opcode: !!int 0b10001000
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: je
+    opcode: !!int 0b00011000
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: jne
+    opcode: !!int 0b10001001
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: jne
+    opcode: !!int 0b00011001
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: jg
+    opcode: !!int 0b10001010
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: jg
+    opcode: !!int 0b00011010
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: jge
+    opcode: !!int 0b10001011
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: jge
+    opcode: !!int 0b00011011
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: jl
+    opcode: !!int 0b10001100
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: jl
+    opcode: !!int 0b00011100
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: jle
+    opcode: !!int 0b10001101
+    arguments:
+      - type: text_address
+        bits: 16
+  - mnemonic: jle
+    opcode: !!int 0b00011101
+    arguments:
+      - type: register
+        group: ACC
+  - mnemonic: in
+    opcode: !!int 0b10001110
+    arguments:
+      - type: register
+        group: ACC
+      - type: immediate # port
+        bits: 16
+  - mnemonic: out
+    opcode: !!int 0b10011000
+    arguments:
+      - type: immediate 
+        bits: 16
+      - type: register
+        group: ACC
