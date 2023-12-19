@@ -14,6 +14,12 @@ register_groups:
       - R03
       - BP
       - SP
+  simd:
+    length: 3
+    registers:
+      - M00
+      - M01
+      - M02
 commands:
   - mnemonic: halt
     opcode: !!int 0b00000000
@@ -637,7 +643,57 @@ commands:
         padding_bits: 5
   - mnemonic: load4
     opcode: !!int 0b00001011
-    # TODO: ask whether should be, as we deleted SIMD registers
-    # The same for STORE4, ADD4, SUB4, MUL4, DIV4
+    arguments:
+      - type: register
+        group: simd
+      - type: padding
+        bits: 5
+      - type: data_address
+        bits: 16
+  - mnemonic: store4
+    opcode: !!int 0b00001100
+    arguments:
+      - type: register
+        group: simd
+      - type: padding
+        bits: 5
+      - type: data_address
+        bits: 16
+  - mnemonic: add4
+    opcode: !!int 0b01111010
+    arguments:
+      - type: register
+        group: simd
+      - type: register
+        group: simd
+      - type: padding
+        bits: 2
+  - mnemonic: sub4
+    opcode: !!int 0b01111011
+    arguments:
+      - type: register
+        group: simd
+      - type: register
+        group: simd
+      - type: padding
+        bits: 2
+  - mnemonic: mul4
+    opcode: !!int 0b01111101
+    arguments:
+      - type: register
+        group: simd
+      - type: register
+        group: simd
+      - type: padding
+        bits: 2
+  - mnemonic: div4
+    opcode: !!int 0b01111101
+    arguments:
+      - type: register
+        group: simd
+      - type: register
+        group: simd
+      - type: padding
+        bits: 2
   - mnemonic: nop
     opcode: !!int 0b00100010
