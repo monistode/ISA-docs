@@ -1,0 +1,331 @@
+opcode_length: 8
+opcode_offset: 0
+text_byte_length: 8
+data_byte_length: 8
+text_address_size: 16
+data_address_size: 16
+register_groups:
+  generic:
+    length: 3
+    registers:
+      - R00
+      - R01
+      - R02
+      - R03
+      - SP
+commands:
+  - mnemonic: halt
+    opcode: !!int 0b000000
+    arguments:
+      - type: padding
+        bits: 2
+  - mnemonic: load
+    opcode: !!int 0b000001
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 4
+  - mnemonic: mov
+    opcode: !!int 0b000110
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+      - type: immediate
+        bits: 16
+  - mnemonic: mov
+    opcode: !!int 0b000101
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 4
+  - mnemonic: push
+    opcode: !!int 0b101000
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+  - mnemonic: pop
+    opcode: !!int 0b101001
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+  - mnemonic: add
+    opcode: !!int 0b000011
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: addc
+    opcode: !!int 0b100100
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: sub
+    opcode: !!int 0b000100
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: mul
+    opcode: !!int 0b001010
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: div
+    opcode: !!int 0b001011
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: and
+    opcode: !!int 0b001100
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: or
+    opcode: !!int 0b001101
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: xor
+    opcode: !!int 0b001110
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: not
+    opcode: !!int 0b001111
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 4
+  - mnemonic: lsh
+    opcode: !!int 0b010000
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: rsh
+    opcode: !!int 0b010001
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 1
+  - mnemonic: call
+    opcode: !!int 0b010010
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: call
+    opcode: !!int 0b010010
+    arguments:
+      - type: data_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: call
+    opcode: !!int 0b010011
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+  - mnemonic: ret
+    opcode: !!int 0b010100
+    arguments:
+      - type: padding
+        bits: 2
+  - mnemonic: cmp
+    opcode: !!int 0b010101
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 4
+  - mnemonic: cmp
+    opcode: !!int 0b010110
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+      - type: immediate
+        bits: 16
+  - mnemonic: test
+    opcode: !!int 0b010111
+    arguments:
+      - type: register
+        group: generic
+      - type: register
+        group: generic
+      - type: padding
+        bits: 4
+  - mnemonic: test
+    opcode: !!int 0b011000
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+      - type: immediate
+        bits: 16
+  - mnemonic: jmp
+    opcode: !!int 0b011001
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: jmp
+    opcode: !!int 0b011010
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+  - mnemonic: je
+    opcode: !!int 0b011010
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: jne
+    opcode: !!int 0b011011
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: jg
+    opcode: !!int 0b011100
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: jge
+    opcode: !!int 0b011101
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: jl
+    opcode: !!int 0b011110
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: jle
+    opcode: !!int 0b011111
+    arguments:
+      - type: text_address
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: in
+    opcode: !!int 0b100000
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+      - type: immediate # port
+        bits: 16
+  - mnemonic: out
+    opcode: !!int 0b100001
+    arguments:
+      - type: immediate
+        bits: 16
+      - type: immediate 
+        bits: 16
+      - type: padding
+        bits: 2
+  - mnemonic: out
+    opcode: !!int 0b100010
+    arguments:
+      - type: immediate # port
+        bits: 16
+      - type: register
+        group: generic
+      - type: padding
+        bits: 7
+  - mnemonic: nop
+    opcode: !!int 0b100011
+    arguments:
+      - type: padding
+        bits: 2

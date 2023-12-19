@@ -10,10 +10,10 @@ Register name starts with `%`
 8-bit instructions, 49 instructions
 
 Registers:
-- `R00` - `16 bits` - General-purpose 16-bit word (`R00H` - high byte, `R00L` - low byte)
-- `R01` - `16 bits` - General-purpose 16-bit word (`R01H` - high byte, `R01L` - low byte)
-- `R02` - `16 bits` - General-purpose 16-bit word (`R02H` - high byte, `R02L` - low byte)
-- `R03` - `16 bits` - General-purpose 16-bit word (`R03H` - high byte, `R03L` - low byte)
+- `R00` - `16 bits` - General-purpose 16-bit word
+- `R01` - `16 bits` - General-purpose 16-bit word
+- `R02` - `16 bits` - General-purpose 16-bit word
+- `R03` - `16 bits` - General-purpose 16-bit word
 - `FR`  - `8 bits` -(flag resiter: `CF`(carry), `ZF`(zero), `OF`(overflow), `SF`(sign))
 - `SP` -  `16 bits` - stack pointer
 - `PC` -  `16 bits` - program counter
@@ -21,12 +21,8 @@ Registers:
 Opcode structure:
 
 - for three registers (dest = src1, src2): `| 6-bit opcode | 3-bit register | 3-bit register | 3-bit register | 1 empty bit |`
-- for a register and immediate constant `| 6-bit opcode | 3-bit register | 7-bit constant |`
-- for immediate constant `| 6-bit opcode | 10-bit constant |`
-
-And load immediate constants instructions look like:
-
-`| 5-bit opcode for high/low load | 3-bit register | 8-bit immediate constant low/high byte |`
+- for a register and immediate constant `| 6-bit opcode | 3-bit register | 7-bit empty | 16-bit constant |`
+- for immediate constant `| 6-bit opcode | 16-bit constant | 2-bit empty |`
 
 ## Instructions
 
@@ -46,13 +42,7 @@ Loads the memory cell `[%REG2]` is pointing to: `%REG1 = [%REG2]`
 Stores `%REG2` into the memory cell `[%REG1]` is pointing to: `[%REG1] = %REG2`
 
 ### MOV `%REG, $imm`
-`000110` - 2 bytes, used for loading `R00L, R01L, R02L, R03L`
-
-`000111` - 2 bytes, used for loading `R00L, R01L, R02L, R03L`
-
-`001000` - 2 bytes, used for loading `R00H, R01H, R02H, R03H`
-
-`001001` - 2 bytes, used for loading `R00H, R01H, R02H, R03H`
+`000110` - 2 bytes
 
 Puts the value `$imm` in `%REG`: `%REG = $imm`
 
@@ -191,7 +181,7 @@ Pushes the next instruction's location on to the memory stack, transfers control
 ###  CALL `[%REG]`
 `010011` - 2 bytes
 
-Pushes the next instruction's location on to the memory stack, transfers control to the location at `%REg`
+Pushes the next instruction's location on to the memory stack, transfers control to the location at `%REG`
 
 ### RET
 `010100` - 2 bytes
