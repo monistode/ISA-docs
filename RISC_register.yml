@@ -187,13 +187,6 @@ commands:
       - type: padding
         bits: 2
   - mnemonic: call
-    opcode: !!int 0b010010
-    arguments:
-      - type: data_address
-        bits: 16
-      - type: padding
-        bits: 2
-  - mnemonic: call
     opcode: !!int 0b010011
     arguments:
       - type: register
