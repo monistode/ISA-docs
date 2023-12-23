@@ -1,4 +1,4 @@
-# RISC STACK
+# STACK
 
 
 ## Structure

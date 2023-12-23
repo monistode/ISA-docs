@@ -1,4 +1,4 @@
-# RISC ACCUMULATOR
+# ACCUMULATOR
 
 ## Structure
 
