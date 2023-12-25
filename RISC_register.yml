@@ -24,6 +24,15 @@ commands:
     arguments:
       - type: register
         group: generic
+      - type: register_address
+        group: generic
+      - type: padding
+        bits: 4
+  - mnemonic: store
+    opcode: !!int 0b000010
+    arguments:
+      - type: register_address
+        group: generic
       - type: register
         group: generic
       - type: padding
