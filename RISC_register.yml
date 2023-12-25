@@ -198,7 +198,7 @@ commands:
   - mnemonic: call
     opcode: !!int 0b010011
     arguments:
-      - type: register
+      - type: register_address
         group: generic
       - type: padding
         bits: 7
