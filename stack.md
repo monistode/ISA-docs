@@ -118,7 +118,7 @@ Duplicate the second from the top element of the register stack, pushing it onto
 
 ### MOV
 
-`mov $num` - `100010`
+`mov $IMM` - `100010`
 
 Push the value of `num` onto the register stack
 
@@ -235,7 +235,7 @@ TODO: think about setting `ZF`
 
 ### LSH
 
-`lsh $num` - `100011`
+`lsh $IMM` - `100011`
 
 Pop a value from the register stack, shift it by `num` to the left ($x = x*2^n$), and push the result onto the register stack.
 
@@ -248,7 +248,7 @@ TODO: figure out whether we should set the `OF` to the shifted out bit for 1-bit
 
 ### RSH
 
-`rsh $num` - 100100
+`rsh $IMM` - 100100
 
 Pop a value from the register stack, shift it by `num` to the right, and push the result onto the register stack.
 
@@ -261,7 +261,7 @@ TODO: figure out whether we should set the `OF` to the shifted out bit for 1-bit
 
 ### CALL
 
-`call $num` (`call label`) - `100101`
+`call $IMM` (`call label`) - `100101`
 
 `call` - `010110`
 
@@ -306,7 +306,7 @@ Pop a value from the register stack if it's not provided, and set it as the *rel
 
 `jc` - `011011`
 
-`jc $num` - `101001`
+`jc $IMM` - `101001`
 
 Pop a value from the register stack. If it's a boolean true (`0xffff`):
 - pop a value from the register stack if an immediate isn't provided

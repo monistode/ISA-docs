@@ -173,10 +173,10 @@ Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 Pushes the next instruction's location on to the memory stack, transfers control to the location at `label`
 
-###  CALL `[$num]`
+###  CALL `[$IMM]`
 `010010` - 2 bytes
 
-Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$num]`
+Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$IMM]`
 
 ###  CALL `[%REG]`
 `010011` - 2 bytes
@@ -195,10 +195,10 @@ Compares value of register `%REG1` and value `%REG2`, by subtracting the second 
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
-### CMP `%REG1, $num`
+### CMP `%REG1, $IMM`
 `010110` - 2 bytes
 
-Compares value of register `%REG1` and value `$num`, by subtracting the second one from the first one, changing the flags accordingly
+Compares value of register `%REG1` and value `$IMM`, by subtracting the second one from the first one, changing the flags accordingly
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
@@ -209,19 +209,19 @@ Performs bitwise `and` operation between the `%REG1` and `%REG2`, changing the f
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-### TEST `%REG1, $num`
+### TEST `%REG1, $IMM`
 `011000` - 2 bytes
 
 Performs bitwise `and` operation between the `%REG1` and the value `$unm`, changing the flags accordingly
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-### JMP `$num`
+### JMP `$IMM`
 `011001` - 2 bytes
 
-If `ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
+If `ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JMP `%REG`
 `011010` - 2 bytes
@@ -230,58 +230,58 @@ If `ZF == 1`, Sets `%PC` to `%REG`, effectively jumping to that address
 
 `%PC = %REG`
 
-### JE `$num`
+### JE `$IMM`
 `011010` -  2 bytes
 
-If `ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
+If `ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
-### JNE `$num`
+### JNE `$IMM`
 `011011` - 2 bytes
 
-If `ZF == 0`, Sets `%PC` to `$num`, effectively jumping to that address
+If `ZF == 0`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
-### JG `$num`
+### JG `$IMM`
 `011100` - 2 bytes
 
-If `ZF == 0 && SF == OF`, Sets `%PC` to `$num`, effectively jumping to that address
+If `ZF == 0 && SF == OF`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
-### JGE `$num`
+### JGE `$IMM`
 `011101` - 2 btyes
 
-If `Cf == 0`, Sets `%PC` to `$num`, effectively jumping to that address
+If `Cf == 0`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
-### JL `$num`
+### JL `$IMM`
 `011110` - 2 bytes
 
-If `SF != OF`, Sets `%PC` to `$num`, effectively jumping to that address
+If `SF != OF`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
-### JLE `$num`
+### JLE `$IMM`
 `011111` - 2 bytes
 
-If `CF == 1 || ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
+If `CF == 1 || ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
-### IN %REG, `$num`
+### IN %REG, `$IMM`
 `100000` - 2 bytes
 Transfers data from the device at port `num` to `%REG`
 
-### OUT `$num1, $num2`
+### OUT `$IMM1, $IMM2`
 `100001` - 2 bytes
 
 Transfers data from `num2` to the device at port `num1`
 
-### OUT `$num1, %REG`
+### OUT `$IMM1, %REG`
 `100010` -2 bytes
 
 Transfers data from `%REG` to the device at port `num1`

@@ -348,21 +348,21 @@ Computes binary not between word from the `%ACC` register and `[%IR1]` location,
 
 Computes binary not between word from the `%ACC` register and `[%IR2]` location, saving the result into `%ACC`
 
-### LSH `$num`
+### LSH `$IMM`
 `10000001` - 3 bytes
 
 Shifts the value from register `acc` by `num` to the left, saving the result in the register `acc`
 
-`%ACC = %ACC << $num`
+`%ACC = %ACC << $IMM`
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-### RSH `$num`
+### RSH `$IMM`
 `10000010` - 3 bytes
 
 Shifts the value from register `acc` by `num` to the left, saving the result in the register `acc`
 
-`%ACC = %ACC >> $num`
+`%ACC = %ACC >> $IMM`
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
@@ -371,10 +371,10 @@ Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
 Pushes the next instruction's location on to the memory stack, transfers control to the location at `label`
 
-### CALL `$num`
+### CALL `$IMM`
 `10000100` - 3 bytes
 
-Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$num]`
+Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$IMM]`
 
 ### CALL
 `00010100` - 1 byte
@@ -410,7 +410,7 @@ Compares value of register `%ACC` and value at location `[%IR1]` (or with consta
 
 Compares value of register `%ACC` and value at location `[%IR2]` (or with constant `num`), by subtracting the second one from the first one, changing the flags accordingly
 
-### TEST `$num`
+### TEST `$IMM`
 `10000110` - 3 bytes
 
 Performs bitwise `and` operation between the `num` and `%ACC`, changing the flags accordingly
@@ -434,12 +434,12 @@ Performs bitwise `and` operation between the value at `[%IR1]` and `%ACC`, chang
 
 Performs bitwise `and` operation between the value at `[%IR2]` and `%ACC`, changing the flags accordingly
 
-### JMP `$num`
+### JMP `$IMM`
 `10000111` - 3 bytes
 
-Sets `%PC` to `$num`, effectively jumping to that address
+Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JMP
 `00010111` - 1 byte
@@ -448,12 +448,12 @@ Sets `%PC` to `%ACC`, effectively jumping to that address
 
 `%PC = %ACC`
 
-### JE `$num`
+### JE `$IMM`
 `10001000` - 3 bytes
 
-If `ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
+If `ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JE
 `00011000` - 1 byte
@@ -462,12 +462,12 @@ If `ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that address
 
 `%PC = %ACC`
 
-### JNE `$num`
+### JNE `$IMM`
 `10001001` - 3 bytes
 
-If `ZF == 0`, Sets `%PC` to `$num`, effectively jumping to that address
+If `ZF == 0`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JNE
 `00011001` - 1 byte
@@ -476,12 +476,12 @@ If `ZF == 0`, Sets `%PC` to `%ACC`, effectively jumping to that address
 
 `%PC = %ACC`
 
-### JG `$num`
+### JG `$IMM`
 `10001010` - 3 bytes
 
-If `ZF == 0 && SF == OF`, Sets `%PC` to `$num`, effectively jumping to that address
+If `ZF == 0 && SF == OF`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JG
 `00011010` - 1 byte
@@ -490,12 +490,12 @@ If `ZF == 0 && SF == OF`, Sets `%PC` to `%ACC`, effectively jumping to that addr
 
 `%PC = %ACC`
 
-### JGE `$num`
+### JGE `$IMM`
 `10001011` - 3 bytes
 
-If `Cf == 0`, Sets `%PC` to `$num`, effectively jumping to that address
+If `Cf == 0`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JGE
 `00011011` - 1 byte
@@ -504,12 +504,12 @@ If `CF == 0`, Sets `%PC` to `%ACC`, effectively jumping to that address
 
 `%PC = %ACC`
 
-### JL `$num`
+### JL `$IMM`
 `10001100` - 3 bytes
 
-If `SF != OF`, Sets `%PC` to `$num`, effectively jumping to that address
+If `SF != OF`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JL
 `00011100` - 1 byte
@@ -518,12 +518,12 @@ If `SF != OF`, Sets `%PC` to `%ACC`, effectively jumping to that address
 
 `%PC = %ACC`
 
-### JLE `$num`
+### JLE `$IMM`
 `10001101` - 3 bytes
 
-If `CF == 1 || ZF == 1`, Sets `%PC` to `$num`, effectively jumping to that address
+If `CF == 1 || ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that address
 
-`%PC = $num`
+`%PC = $IMM`
 
 ### JLE
 `00011101` - 1 byte
@@ -532,12 +532,12 @@ If `CF == 1 || ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that addre
 
 `%PC = %ACC`
 
-### IN `$num`
+### IN `$IMM`
 `10001110` - 3 bytes
 
 Transfers data from the device at port `num` to `%ACC`
 
-### OUT `$num1`
+### OUT `$IMM1`
 `10011000` - 3 bytes
 
 Transfers data from `%ACC` to the device at port `num1`
