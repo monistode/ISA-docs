@@ -351,7 +351,7 @@ Computes binary not between word from the `%ACC` register and `[%IR2]` location,
 ### LSH `$IMM`
 `10000001` - 3 bytes
 
-Shifts the value from register `acc` by `num` to the left, saving the result in the register `acc`
+Shifts the value from register `acc` by `IMM` to the left, saving the result in the register `acc`
 
 `%ACC = %ACC << $IMM`
 
@@ -360,7 +360,7 @@ Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 ### RSH `$IMM`
 `10000010` - 3 bytes
 
-Shifts the value from register `acc` by `num` to the left, saving the result in the register `acc`
+Shifts the value from register `acc` by `IMM` to the left, saving the result in the register `acc`
 
 `%ACC = %ACC >> $IMM`
 
@@ -389,7 +389,7 @@ Transfers control to the popped instruction location
 ### CMP `[mem]`
 `00010110` - 3 bytes
 
-Compares value of register `%ACC` and value at location `mem` (or with constant `num`), by subtracting the second one from the first one, changing the flags accordingly
+Compares value of register `%ACC` and value at location `mem` (or with constant `IMM`), by subtracting the second one from the first one, changing the flags accordingly
 
 Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), the `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
@@ -403,17 +403,17 @@ Reset the flag register, then set the `CF` to 1 if the result is negative, `OF` 
 ### CMP `[%IR1]`
 `00111001` - 1 byte
 
-Compares value of register `%ACC` and value at location `[%IR1]` (or with constant `num`), by subtracting the second one from the first one, changing the flags accordingly
+Compares value of register `%ACC` and value at location `[%IR1]` (or with constant `IMM`), by subtracting the second one from the first one, changing the flags accordingly
 
 ### CMP `[%IR2]`
 `00111010` - 1 byte
 
-Compares value of register `%ACC` and value at location `[%IR2]` (or with constant `num`), by subtracting the second one from the first one, changing the flags accordingly
+Compares value of register `%ACC` and value at location `[%IR2]` (or with constant `IMM`), by subtracting the second one from the first one, changing the flags accordingly
 
 ### TEST `$IMM`
 `10000110` - 3 bytes
 
-Performs bitwise `and` operation between the `num` and `%ACC`, changing the flags accordingly
+Performs bitwise `and` operation between the `IMM` and `%ACC`, changing the flags accordingly
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
@@ -535,9 +535,9 @@ If `CF == 1 || ZF == 1`, Sets `%PC` to `%ACC`, effectively jumping to that addre
 ### IN `$IMM`
 `10001110` - 3 bytes
 
-Transfers data from the device at port `num` to `%ACC`
+Transfers data from the device at port `IMM` to `%ACC`
 
-### OUT `$IMM1`
+### OUT `$IMM`
 `10011000` - 3 bytes
 
-Transfers data from `%ACC` to the device at port `num1`
+Transfers data from `%ACC` to the device at port `IMM`

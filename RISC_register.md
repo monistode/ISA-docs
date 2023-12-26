@@ -274,17 +274,17 @@ If `CF == 1 || ZF == 1`, Sets `%PC` to `$IMM`, effectively jumping to that addre
 
 ### IN %REG, `$IMM`
 `100000` - 2 bytes
-Transfers data from the device at port `num` to `%REG`
+Transfers data from the device at port `IMM` to `%REG`
 
 ### OUT `$IMM1, $IMM2`
 `100001` - 2 bytes
 
-Transfers data from `num2` to the device at port `num1`
+Transfers data from `IMM2` to the device at port `IMM1`
 
 ### OUT `$IMM1, %REG`
 `100010` -2 bytes
 
-Transfers data from `%REG` to the device at port `num1`
+Transfers data from `%REG` to the device at port `IMM1`
 
 ### NOP
 `100011` - 1 byte

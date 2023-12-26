@@ -120,7 +120,7 @@ Duplicate the second from the top element of the register stack, pushing it onto
 
 `mov $IMM` - `100010`
 
-Push the value of `num` onto the register stack
+Push the value of `IMM` onto the register stack
 
 
 ### PUSH
@@ -237,7 +237,7 @@ TODO: think about setting `ZF`
 
 `lsh $IMM` - `100011`
 
-Pop a value from the register stack, shift it by `num` to the left ($x = x*2^n$), and push the result onto the register stack.
+Pop a value from the register stack, shift it by `IMM` to the left ($x = x*2^n$), and push the result onto the register stack.
 
 Reset the flag register, and set the `CF` to 1 if any 1's are shifted out and the `ZF` if the truncated result is 0.
 
@@ -250,7 +250,7 @@ TODO: figure out whether we should set the `OF` to the shifted out bit for 1-bit
 
 `rsh $IMM` - 100100
 
-Pop a value from the register stack, shift it by `num` to the right, and push the result onto the register stack.
+Pop a value from the register stack, shift it by `IMM` to the right, and push the result onto the register stack.
 
 Reset the flag register, and set the `CF` to 1 if any 1's are shifted out and the `ZF` if the truncated result is 0.
 
