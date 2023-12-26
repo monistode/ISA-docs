@@ -1,4 +1,4 @@
-opcode_length: 8
+opcode_length: 6
 opcode_offset: 0
 text_byte_length: 8
 data_byte_length: 8
