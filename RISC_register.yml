@@ -311,7 +311,7 @@ commands:
   - mnemonic: out
     opcode: !!int 0b100001
     arguments:
-      - type: immediate
+      - type: immediate # port
         bits: 16
       - type: immediate 
         bits: 16
