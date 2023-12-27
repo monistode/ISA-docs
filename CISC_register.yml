@@ -26,30 +26,30 @@ commands:
   - mnemonic: mov
     opcode: !!int 0b10000000
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: mov
     opcode: !!int 0b01100000
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: mov
     opcode: !!int 0b01100001
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: mov
     opcode: !!int 0b10100000
     arguments:
@@ -64,19 +64,19 @@ commands:
   - mnemonic: mov
     opcode: !!int 0b01100010
     arguments:
+      - type: padding
+        bits: 2
       - type: register_address
         group: generic
       - type: register
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: mov
     opcode: !!int 0b10000001
     arguments:
-      - type: register_address
-        group: generic
       - type: padding
         bits: 5
+      - type: register_address
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: mov
@@ -106,10 +106,10 @@ commands:
   - mnemonic: push
     opcode: !!int 0b00000001
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
   - mnemonic: push
     opcode: !!int 0b01000000
     arguments:
@@ -118,10 +118,10 @@ commands:
   - mnemonic: pop
     opcode: !!int 0b00000010
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
   - mnemonic: enter
     opcode: !!int 0b01000001
     arguments:
@@ -132,21 +132,21 @@ commands:
   - mnemonic: add
     opcode: !!int 0b01100011
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: add
     opcode: !!int 0b01100100
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: add
     opcode: !!int 0b10100010
     arguments:
@@ -161,30 +161,30 @@ commands:
   - mnemonic: add
     opcode: !!int 0b01100101
     arguments:
+      - type: padding
+        bits: 2
       - type: register_address
         group: generic
       - type: register
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: sub
     opcode: !!int 0b01100110
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: sub
     opcode: !!int 0b01100111
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: sub
     opcode: !!int 0b10100011
     arguments:
@@ -199,26 +199,26 @@ commands:
   - mnemonic: sub
     opcode: !!int 0b01101000
     arguments:
+      - type: padding
+        bits: 2
       - type: register_address
         group: generic
       - type: register
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: inc
     opcode: !!int 0b00000011
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
   - mnemonic: inc
     opcode: !!int 0b00000100
     arguments:
-      - type: register_address
-        group: generic
       - type: padding
         bits: 5
+      - type: register_address
+        group: generic
   - mnemonic: inc
     opcode: !!int 0b10000010
     arguments:
@@ -231,10 +231,10 @@ commands:
   - mnemonic: dec
     opcode: !!int 0b00000101
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
   - mnemonic: dec
     opcode: !!int 0b00000110
     arguments:
@@ -254,37 +254,37 @@ commands:
   - mnemonic: mul
     opcode: !!int 0b01101001
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: mul
     opcode: !!int 0b01101010
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: mul
     opcode: !!int 0b01101011
     arguments:
+      - type: padding
+        bits: 2
       - type: register_address
         group: generic
       - type: register
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: mul
     opcode: !!int 0b10000100
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: mul
@@ -301,37 +301,37 @@ commands:
   - mnemonic: div
     opcode: !!int 0b01101100
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: div
     opcode: !!int 0b01101101
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: div
     opcode: !!int 0b01101110
     arguments:
+      - type: padding
+        bits: 2
       - type: register_address
         group: generic
       - type: register
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: div
     opcode: !!int 0b10000101
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: div
@@ -348,87 +348,87 @@ commands:
   - mnemonic: and
     opcode: !!int 0b01101111
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: and
     opcode: !!int 0b01110000
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: or
     opcode: !!int 0b01110001
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: or
     opcode: !!int 0b01110010
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: xor
     opcode: !!int 0b01110011
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: xor
     opcode: !!int 0b01110100
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: not
     opcode: !!int 0b00000111
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
   - mnemonic: not
     opcode: !!int 0b00001000
     arguments:
-      - type: register_address
-        group: generic
       - type: padding
         bits: 5
+      - type: register_address
+        group: generic
   - mnemonic: lsh
     opcode: !!int 0b10000110
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: lsh
     opcode: !!int 0b10000111
     arguments:
-      - type: register_address
-        group: generic
       - type: padding
         bits: 5
+      - type: register_address
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: lsh
@@ -445,19 +445,19 @@ commands:
   - mnemonic: rsh
     opcode: !!int 0b10001000
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: rsh
     opcode: !!int 0b10001001
     arguments:
-      - type: register_address
-        group: generic
       - type: padding
         bits: 5
+      - type: register_address
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: rsh
@@ -479,10 +479,10 @@ commands:
   - mnemonic: call
     opcode: !!int 0b00001001
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
   - mnemonic: call
     opcode: !!int 0b10001001
     arguments:
@@ -497,19 +497,19 @@ commands:
   - mnemonic: cmp
     opcode: !!int 0b01110101
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: cmp
     opcode: !!int 0b10001011
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: cmp
@@ -537,12 +537,12 @@ commands:
   - mnemonic: test
     opcode: !!int 0b01110111
     arguments:
-      - type: register
-        group: generic
-      - type: register
-        group: generic
       - type: padding
         bits: 2
+      - type: register
+        group: generic
+      - type: register
+        group: generic
   - mnemonic: test
     opcode: !!int 0b01111000
     arguments:
@@ -569,10 +569,10 @@ commands:
   - mnemonic: jmp
     opcode: !!int 0b00001010
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
   - mnemonic: jmp
     opcode: !!int 0b10001100
     arguments:
@@ -615,19 +615,19 @@ commands:
   - mnemonic: in
     opcode: !!int 0b10001101
     arguments:
-      - type: register
-        group: generic
       - type: padding
         bits: 5
+      - type: register
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: in
     opcode: !!int 0b10001110
     arguments:
-      - type: register_address
-        group: generic
       - type: padding
         bits: 5
+      - type: register_address
+        group: generic
       - type: immediate
         bits: 16
   - mnemonic: in
@@ -651,21 +651,21 @@ commands:
   - mnemonic: out
     opcode: !!int 0b10001111
     arguments:
+      - type: padding
+        bits: 5
       - type: immediate
         bits: 16
       - type: register
         group: generic
-      - type: padding
-        bits: 5
   - mnemonic: out
     opcode: !!int 0b10010000
     arguments:
+      - type: padding
+        bits: 5
       - type: immediate
         bits: 16
       - type: register_address
         group: generic
-      - type: padding
-        bits: 5
   - mnemonic: out
     opcode: !!int 0b11000100
     arguments:
@@ -680,56 +680,56 @@ commands:
   - mnemonic: load4
     opcode: !!int 0b00001011
     arguments:
-      - type: register
-        group: simd
       - type: padding
         bits: 5
+      - type: register
+        group: simd
       - type: data_address
         bits: 16
   - mnemonic: store4
     opcode: !!int 0b00001100
     arguments:
-      - type: register
-        group: simd
       - type: padding
         bits: 5
+      - type: register
+        group: simd
       - type: data_address
         bits: 16
   - mnemonic: add4
     opcode: !!int 0b01111010
     arguments:
-      - type: register
-        group: simd
-      - type: register
-        group: simd
       - type: padding
         bits: 2
+      - type: register
+        group: simd
+      - type: register
+        group: simd
   - mnemonic: sub4
     opcode: !!int 0b01111011
     arguments:
-      - type: register
-        group: simd
-      - type: register
-        group: simd
       - type: padding
         bits: 2
+      - type: register
+        group: simd
+      - type: register
+        group: simd
   - mnemonic: mul4
     opcode: !!int 0b01111101
     arguments:
-      - type: register
-        group: simd
-      - type: register
-        group: simd
       - type: padding
         bits: 2
+      - type: register
+        group: simd
+      - type: register
+        group: simd
   - mnemonic: div4
     opcode: !!int 0b01111101
     arguments:
-      - type: register
-        group: simd
-      - type: register
-        group: simd
       - type: padding
         bits: 2
+      - type: register
+        group: simd
+      - type: register
+        group: simd
   - mnemonic: nop
     opcode: !!int 0b00100010
