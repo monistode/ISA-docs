@@ -53,12 +53,14 @@ commands:
   - mnemonic: mov
     opcode: !!int 0b10100000
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: mov
     opcode: !!int 0b01100010
     arguments:
@@ -80,21 +82,25 @@ commands:
   - mnemonic: mov
     opcode: !!int 0b10100001
     arguments:
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
         padding_bits: 0
+      - type: padding
+        bits: 5
       - type: register
         group: generic
-      - type: padding
-        bits: 2
   - mnemonic: mov
     opcode: !!int 0b11000000
     arguments:
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
       - type: immediate
         bits: 16
   - mnemonic: push
@@ -144,12 +150,14 @@ commands:
   - mnemonic: add
     opcode: !!int 0b10100010
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: add
     opcode: !!int 0b01100101
     arguments:
@@ -180,12 +188,14 @@ commands:
   - mnemonic: sub
     opcode: !!int 0b10100011
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: sub
     opcode: !!int 0b01101000
     arguments:
@@ -212,10 +222,12 @@ commands:
   - mnemonic: inc
     opcode: !!int 0b10000010
     arguments:
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
   - mnemonic: dec
     opcode: !!int 0b00000101
     arguments:
@@ -233,10 +245,12 @@ commands:
   - mnemonic: dec
     opcode: !!int 0b10000011
     arguments:
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
   - mnemonic: mul
     opcode: !!int 0b01101001
     arguments:
@@ -276,12 +290,14 @@ commands:
   - mnemonic: mul
     opcode: !!int 0b10100100
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: div
     opcode: !!int 0b01101100
     arguments:
@@ -321,12 +337,14 @@ commands:
   - mnemonic: div
     opcode: !!int 0b10100101
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: and
     opcode: !!int 0b01101111
     arguments:
@@ -416,10 +434,12 @@ commands:
   - mnemonic: lsh
     opcode: !!int 0b11000001
     arguments:
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
       - type: immediate
         bits: 16
   - mnemonic: rsh
@@ -443,10 +463,12 @@ commands:
   - mnemonic: rsh
     opcode: !!int 0b11000010
     arguments:
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
       - type: immediate
         bits: 16
   - mnemonic: call
@@ -464,10 +486,12 @@ commands:
   - mnemonic: call
     opcode: !!int 0b10001001
     arguments:
+      - type: padding
+        bits: 5
       - type: register_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
   - mnemonic: ret
     opcode: !!int 0b00100001
   - mnemonic: cmp
@@ -489,23 +513,27 @@ commands:
       - type: immediate
         bits: 16
   - mnemonic: cmp
-    opcode: !!int 0b10001011
+    opcode: !!int 0b10100110
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: cmp
     opcode: !!int 0b10100110
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: test
     opcode: !!int 0b01110111
     arguments:
@@ -525,12 +553,14 @@ commands:
   - mnemonic: test
     opcode: !!int 0b10100111
     arguments:
+      - type: padding
+        bits: 2
       - type: register
         group: generic
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 2
+        padding_bits: 0
   - mnemonic: jmp
     opcode: !!int 0b01000011
     arguments:
@@ -546,10 +576,12 @@ commands:
   - mnemonic: jmp
     opcode: !!int 0b10001100
     arguments:
+      - type: padding
+        bits: 5
       - type: register_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
   - mnemonic: je
     opcode: !!int 0b01000100
     arguments:
@@ -601,10 +633,12 @@ commands:
   - mnemonic: in
     opcode: !!int 0b11000011
     arguments:
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
       - type: immediate
         bits: 16
   - mnemonic: out
@@ -637,10 +671,12 @@ commands:
     arguments:
       - type: immediate
         bits: 16
+      - type: padding
+        bits: 5
       - type: register_address_offset
         group: generic
         offset_bits: 16
-        padding_bits: 5
+        padding_bits: 0
   - mnemonic: load4
     opcode: !!int 0b00001011
     arguments:
