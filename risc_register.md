@@ -168,15 +168,12 @@ Shifts `%REG2` right by `%REG3` bits, and saves it to `%REG1`
 
 Resets `FR`. Sets all flags as if addition, except `OF` - it's 0
 
-###  CALL `label`
-`010010` - 2 bytes
-
-Pushes the next instruction's location on to the memory stack, transfers control to the location at `label`
-
 ###  CALL `[$IMM]`
 `010010` - 2 bytes
 
 Pushes the next instruction's location on to the memory stack, transfers control to the location at `[$IMM]`
+
+If there is a label at `$IMM`, it's replaced with the address of that label
 
 ###  CALL `[%REG]`
 `010011` - 2 bytes
