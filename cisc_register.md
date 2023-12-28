@@ -7,7 +7,7 @@
 Register CISC architecture uses 1-4 bytes for instructions:
 There is 7 registers:
 - `FR` - `8 bits` - Flag register with least significant bits representing flags - CF, ZF, OF, SF (not a general-purpose register)
-- `R00`, `R01`, `R02`, `R03` - `16 bits each` - with L and H bytes each
+- `R00`, `R01`, `R02`, `R03` - `16 bits each`
 - `BP` - `16 bits` - base pointer
 - `SP` - `16 bits` - stack pointer
 - `PC` - `16 bits` - Program counter (can't be directly affected with arithmetical instructions)
