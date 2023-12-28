@@ -659,43 +659,55 @@ Puts the value from `[%REG + $OFFSET]` on to the port `$PORT`
 # LOAD4 `%SIMDREG`, `$ADDR`
 `00001011` - 4 bytes
 
+`SIMDREG` $\Rightleftarrow$ `R00`, `R01`, `R02`, `R03`
+
 Load 4 bytes from memory into `%SIMDREG`, starting at `$ADDR`
 
 # STORE4 `%SIMDREG`, `$ADDR`
 `00001100` - 4 bytes
+
+`SIMDREG` $\Rightleftarrow$ `R00`, `R01`, `R02`, `R03`
 
 Store 4 bytes from `%SIMDREG` into `[$ADDR]`
 
 # ADD4 `%SIMDREG1, %SIMDREG2`
 `01111010` - 2 bytes
 
-Add two SIMD registers (`%SIMDREG1 * %SIMDREG2`), storing the result into `%SIMDREG1`.
+`SIMDREG` $\Rightleftarrow$ `R00`, `R01`, `R02`, `R03`
 
-`%SIMDREG1 += %SIMDREG2`
+Add two SIMD registers (`%SIMDREG * %SIMDREG`), storing the result into `%SIMDREG`.
 
-# SUB4 `%SIMDREG1, %SIMDREG2`
+`%SIMDREG += %SIMDREG`
+
+# SUB4 `%SIMDREG, %SIMDREG`
 `01111011` - 2 bytes
 
-Subtract two SIMD registers (`%SIMDREG1 - %SIMDREG2`), storing the result into `%SIMDREG1`.
+`SIMDREG` $\Rightleftarrow$ `R00`, `R01`, `R02`, `R03`
+
+Subtract two SIMD registers (`%SIMDREG - %SIMDREG`), storing the result into `%SIMDREG`.
 
 Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
 
-`%SIMDREG1 -= %SIMDREG2`
+`%SIMDREG -= %SIMDREG`
 
-# MUL4 `%SIMDREG1, %SIMDREG2`
+# MUL4 `%SIMDREG, %SIMDREG`
 `01111101` - 2 bytes
 
-Multiply two SIMD registers (`%SIMDREG1 * %SIMDREG2`), storing the result into `%SIMDREG1`.
+`SIMDREG` $\Rightleftarrow$ `R00`, `R01`, `R02`, `R03`
 
-`%SIMDREG1 *= %SIMDREG2`
+Multiply two SIMD registers (`%SIMDREG * %SIMDREG`), storing the result into `%SIMDREG`.
+
+`%SIMDREG *= %SIMDREG`
 
 
-# DIV4 `%SIMDREG1, %SIMDREG2`
+# DIV4 `%SIMDREG, %SIMDREG`
 `01111101` - 2 bytes
 
-Divide two SIMD registers (`%SIMDREG1 / %SIMDREG2`), storing the result into `%SIMDREG1`.
+`SIMDREG` $\Rightleftarrow$ `R00`, `R01`, `R02`, `R03`
 
-`%SIMDREG1 /= %SIMDREG2`
+Divide two SIMD registers (`%SIMDREG / %SIMDREG`), storing the result into `%SIMDREG`.
+
+`%SIMDREG /= %SIMDREG`
 
 # NOP
 `00100010` - 1 byte
