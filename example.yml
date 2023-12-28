@@ -1,27 +1,90 @@
 # Assembler command specification
-text_byte_length: int # 6, the length of one command
-data_byte_length: int # 8, the length of one data
-text_address_size: int # 16, how many text bytes can be addressed
-data_address_size: int # 16, how many data bytes can be addressed
+opcode_length: 6 # the length of the opcode
+opcode_offset: 0 # On which bit the opcode starts
+  # The previous bits are used by the arguments
+  # Eg for opcode_length: 6, opcode_offset: 0 and a single argument (2-bit register):
+  # (6 bits of opcode)(2 bits of register)
+  # If we change opcode_offset to 1, the format will be:
+  # (first bit of register)(6 bits of opcode)(second bit of register)
+  # ie the opcode_offset is the offset, at which the opcode starts, but the free bits can be used by arguments
+text_byte_length: 6 # the length of one command byte
+data_byte_length: 8 # the length of one data byte
+text_address_size: 16 # how many text bytes can be addressed (the length of text address immediates)
+data_address_size: 16 # how many data bytes can be addressed (the length of data address immediates)
 register_groups:
   - flag:
-    length: int # 0, the length of the registers' codes
+    length: 0 # the length of the each group's register's code
     registers:
-      FR: int # 0b0, the register's code
+      FR: !!int 0b0 # the register's code
   - generic:
-    length: int # 3
+    length: 3
     registers:
-      R0: int # 0b000
-      R1: int # 0b001
+      R0: !!int 0b000
+      R1: !!int 0b001
   - shortened:
-    length: int # 2
+    length: 2
     registers:
-      R0: int # 0b00
+      R0: !!int 0b00
 commands:
-  - mnemonic: str # "load"
-    opcode: int # 0b000000
+  - mnemonic: load # the command's mnemonic
+    opcode: !!int 0b000000 # the command's opcode
     arguments:
-      - type: str # "register"
-        group: group # "shortened"
-      - type: str # "data_addr"
-        bits: int # 16
+      - type: register # the type of the first argument
+        # In this case the first argument is a register
+        group: shortened # the group of the register
+        # The group defines the length of the argument's code
+        # In this case shortened group's length is 2
+        # It also defines, which registers are available for the argument
+      - type: data_address # the type of the second argument
+        bits: 16 # the length of the argument in bits
+        # In this case the second argument is a data address - the address to a place in data section
+        # The length of data_address is 16 bits, so we write bits: 16
+  - mnemonic: jmp
+    opcode: !!int 0b000001
+    arguments:
+      - type: text_address # the type of the first argument
+        # In this case the first argument is a text address - the address to a place in text section
+        # For jmp - it is the address of the next command to execute
+        bits: 16
+        # The length of text_address is 16 bits, so we write bits: 16
+      - type: padding
+        bits: 2
+        # As the text byte length is 6 bits, we need to align the whole command's length to be a multiple of 6
+        # So we add 2 bits of padding: 6 (lenght of opcode) + 16 (length of text_address) + 2 (length of padding) = 24
+  - mnemonic: mov
+    opcode: !!int 0b000010
+    arguments:
+      - type: register_address
+        # register_address - an argument with register, which is interpreted as the address to a place in memory
+        # It is usually written as [%register]
+        group: generic
+        # generic => 3 bits
+      - type: register_address_offset
+        # It is usually written as [%register + offset]
+        # The offset is a number, which is added to the register's value
+        group: generic
+        offset_bits: 16
+        # The length of the offset (it is an immediate, but part of the argument)
+        padding_bits: 2
+        # The padding between the register and offset, when writing the binary. In this case, the expected format is (3 bits of register)(4 bits of padding)(16 bits of offset value)
+  - mnemonic: mov
+    opcode: !!int 0b000011
+    arguments:
+      - type: register
+        group: generic
+      - type: padding
+        bits: 5
+      - type: immediate
+        bits: 16 # The length of the immediate
+  - mnemonic: call
+    opcode: !!int 0b000100
+    arguments:
+      - type: padding
+        bits: 5
+      - type: register_offset
+        # Denoted as call register+offset
+        # The offset is a number, which is added to the register's value
+        group: generic
+        offset_bits: 16
+        padding_bits: 0
+        
