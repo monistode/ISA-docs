@@ -197,7 +197,7 @@ TODO: figure out whether setting `ZF` should work like this or like the implemen
 
 Compute binary `and` between two popped values from the register stack, push the result onto the register stack.
 
-TODO: figure out why this operation modifies the flag register in the implementation as if it's addition, except setting `CF` (but not `OF`) to 0
+Set the zero and sign flags depending on whether the value is 0 and whether the first bit is `.
 
 
 ### OR
@@ -206,7 +206,7 @@ TODO: figure out why this operation modifies the flag register in the implementa
 
 Compute binary `or` between two popped values from the register stack, pushe the result onto the register stack.
 
-TODO: figure out why flags are modified
+Set `ZF` and `SF` depending on whether the value is 0 and whether the first bit is 1.
 
 
 ### XOR
@@ -215,7 +215,7 @@ TODO: figure out why flags are modified
 
 Compute binary `xor` between two popped values from the register stack, push the result onto the register stack.
 
-TODO: figure out why flags are modified
+Set `ZF` and `SF` depending on whether the value is 0 and whether the first bit is 1.
 
 
 ### NOT
@@ -224,13 +224,7 @@ TODO: figure out why flags are modified
 
 Replace the top of the register stack with its' bitwise not.
 
-Reset the flag register, and set the `OF` to 1, the `ZF` to 1 if the result is 0.
-
-Flip the value of `SF`
-
-TODO: figure out whether flags should be modified
-
-TODO: think about setting `ZF`
+Reset the flag register, and set the `OF` to 1, the `ZF` to 1 if the result is 0, flip the value of `SF`.
 
 
 ### LSH
