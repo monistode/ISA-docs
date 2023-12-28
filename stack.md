@@ -147,7 +147,7 @@ Pop a value from the memory stack and set the flag register to it or push it ont
 
 Pop two items from the register stack, add their values, pushing the result onto the register stack.
 
-Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (even if it was truncated).
+Reset the flag register, then set the `CF` to 1 if the result has an extra carry, `OF` if there is a signed overflow (the sign complement of the truncated result is not the same as the non-truncated result), `ZF` to 1 if the truncated result is 0 and the `SF` to 1 if the sign of the result is negative (ignores the truncated bits, only looks at the most significant bit of truncated result).
 
 Note: the implementation isn't at all working as expected, as the `change_flag_result` function takes in the truncated result.
 
