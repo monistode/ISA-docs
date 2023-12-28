@@ -104,6 +104,7 @@ commands:
         bits: 2
       - type: text_address
         bits: 16
+        relative: true
   - mnemonic: call
     opcode: !!int 0b010110
   - mnemonic: ret
@@ -135,6 +136,7 @@ commands:
         bits: 2
       - type: text_address
         bits: 16
+        relative: true
   - mnemonic: jc
     opcode: !!int 0b011011
   - mnemonic: jc
@@ -144,6 +146,7 @@ commands:
         bits: 2
       - type: text_address
         bits: 16
+        relative: true
   - mnemonic: in
     opcode: !!int 0b101010
     arguments:
