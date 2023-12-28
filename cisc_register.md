@@ -13,16 +13,20 @@ There is 7 registers:
 - `PC` - `16 bits` - Program counter (can't be directly affected with arithmetical instructions)
 
 Instructions look like this:
-- `| 3-bit style specifier | 5-bit opcode | `
-- `| 3-bit style specifier | 5-bit opcode | 3-bit register |`
-- `| 3-bit style specifier | 5-bit opcode | 16-bit constant |`
-- `| 3-bit style specifier | 5-bit opcode | 3-bit register | 3-bit register |`
-- `| 3-bit style specifier | 5-bit opcode | 3-bit register | 16-bit constant |`
+- `| 8-bit opcode | `
+- `| 8-bit opcode | 16-bit immidiate |`
+- `| 8-bit opcode |   5-bit padding  | 3-bit register |`
+- `| 8-bit opcode |   2-bit padding  | 3-bit register | 3-bit register |`
+- `| 8-bit opcode |   2-bit padding  | 3-bit register | 3-bit register | 16-bit immidiate |`
+- `| 8-bit opcode |   5-bit padding  | 3-bit register | 16-bit immidiate |`
+- `| 8-bit opcode |   5-bit padding  | 3-bit register | 16-bit immidiate | 5-bit padding | 3-bit register |`
+- `| 8-bit opcode |   5-bit padding  | 3-bit register | 16-bit immidiate | 16-bit immidiate |`
+- `| 8-bit opcode |   5-bit padding  | 16-bit immidiate | 3-bit register |`
+- `| 8-bit opcode | 16-bit immidiate |   5-bit padding  | 3-bit register | 16-bit immidiate |`
 
-Offset instruction:
-- `| 3-bit style specifier | 5-bit opcode | 3-bit register | 16-bit constant |`
-- `| 3-bit style specifier | 5-bit opcode | 3-bit register | 16-bit constant | 3-bit register |`
-- `| 3-bit style specifier | 5-bit opcode | 3-bit register | 3-bit register | 16-bit constant |`
+SIMD instructions operate on 4 registers at once: `R00`, `R01`, `R02`, `R03`.
+
+There are no SIMD registers.
 
 One stack - the memory stack.
 
